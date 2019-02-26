@@ -1,4 +1,172 @@
-Toto's lecture goes in here.
+\subsection{Fourier Transform}
+
+The \emph{Fourier transform} of a function $f$ is given by
+$$ \mathcal{F}[f](\mu) := \hat{f}(\mu) = F(\mu) = \frac{1}{2\pi} \int_{-\infty}^{\infty} f(x) e^{-i\mu x} dx. $$
+$\mathcal{F}[f](\mu) , \hat{f}(\mu), F(\mu)$ all denote the Fourier transform the $f$.
+
+One special property of the Fourier transform is that it has an inverse.
+The \emph{inverse Fourier transform} is given by
+$$f(x) = \int_{-\infty}^{\infty} \mathcal{F}[f](\mu) e^{i\mu x} d\mu$$
+
+The Fourier transform also has some special properties when applied onto the derivative of a function. Provided that $f(x) \to 0$ as $x \to \pm\infty$, we also know that,
+\begin{align*}
+\mathcal{F}[f^\prime](\mu) = i\mu \mathcal{F}[f](\mu).
+\end{align*}
+
+\begin{proof}
+	We prove this by performing integration by parts on the Fourier transform. Given that $f(x) \to 0$ as $x \to \pm\infty$:
+	\begin{align*}
+	\mathcal{F}[f^\prime](\mu) &= \frac{1}{2\pi} \int_{-\infty}^{\infty} f^\prime(x) e^{-i\mu x} dx \\
+	&= \frac{1}{2\pi}\left(\left[f(x) e^{-i\mu x} \right]_{-\infty}^{\infty} - \int_{-\infty}^{\infty}(-i\mu) f(x) e^{-i\mu x} dx \right)\\
+	&= \frac{1}{2\pi}\left((0-0) + (i\mu)\int_{-\infty}^{\infty} f(x) e^{-i\mu x} dx \right)\\
+	&= i\mu \mathcal{F}[f](\mu).
+	\end{align*}
+	Because $e^{i\theta} = \cos \theta + i\sin \theta$, the behavior of $e^{-i\mu x}$ does not diverge at different $x$.
+	So $f(x) e^{-i\mu x}$ evaluated at the boundaries, eg. $\pm\infty$, is going to be dependent on the behavior of $f(x)$. By assumption, $f(x)$ goes to 0, so $f(x) e^{-i\mu x}$ also goes to 0.
+	
+	This behavior is important because the Fourier transform have changed taking the derivative of a function, which is a complicated operation, to multiplication, which is much simpler.
+\end{proof}
+
+\textbf{Schwartz space}
+
+So far, we have used the assumption that function $f(x) \to 0$ as $x \to \pm\infty$. There is a special set of functions where this property is true. This set is called the Schwartz space, and we will be mainly performing the Fourier transform on functions within this space for the remainder of this text.
+The Schwartz space is given by:
+$$S(\mathbb{R}) = \{ f \in C^\infty(\mathbb{R}) : |x^kf^n(x)|\to 0 \text{ as } x\to \pm\infty, \forall k,n = 0, 1, 2,... \} $$
+In words, the Schwartz space is the set of all smooth functions (eg. they are differentiable for all degrees of differentiation)  whose derivatives are rapidly decreasing, that is they decrease faster than any polynomial. Also, if $f$ is in the Schwartz space, then its derivative $f^\prime$ is also in the Schwartz space.
+Although the Schwartz space can also extend into the complex numbers, we will be mostly working with functions from $\mathbb{R} \to \mathbb{R}$, hence the $(\mathbb{R})$ in $S(\mathbb{R})$ to denote the restriction.
+
+In addition to the Fourier transform, there are also the Fourier sine transform and Fourier cosine transform.
+
+\textbf{Fourier sine transform}
+
+The \emph{Fourier sine transform} of a function $f$ is given by
+$$ \mathcal{F}_s[f](\mu) := F_s(\mu) = \frac{2}{\pi} \int_{0}^{\infty} f(x) \sin(\mu x) dx. $$
+Like the Fourier transform, there is also an \emph{inverse Fourier sine transform}, given by
+$$f(x) = \int_{0}^{\infty} \mathcal{F}_s[f](\mu) \sin(\mu x) d\mu.$$
+The Fourier sine transform also has a special property when applied onto the second derivative of a function, namely
+$$\mathcal{F}_s[f^{\prime\prime}](\mu) = -\mu^2\mathcal{F}_s[f](\mu) + \mu\frac{2}{\pi}f(0).$$
+
+\begin{proof}
+	We prove this by performing integration by parts on the Fourier sine transform. Again, we assume that $f$ belongs to the Schwartz space:
+	\begin{align*}
+	\mathcal{F}_s[f^{\prime\prime}](\mu) &= \frac{2}{\pi} \int_{0}^{\infty} f^{\prime\prime}(x) \sin(\mu x) dx \\
+	&= \frac{2}{\pi}\left(\left[f^{\prime} \sin(\mu x) \right]_{0}^{\infty} - \mu \int_{0}^{\infty} f^{\prime}(x) \cos(\mu x) dx \right)\\
+	&= \frac{2}{\pi}\left((0-0)- \mu \left[f(x) \cos(\mu x) \right]_{0}^{\infty} - \mu^2
+	\int_{0}^{\infty} f(x) \sin(\mu x) dx \right)\\
+	&= \frac{-2}{\pi}\mu (0 - f(0)) + \frac{-2\mu^2}{\pi}
+	\int_{0}^{\infty} f(x) \sin(\mu x) dx\\
+	&= -\mu^2\mathcal{F}_s[f](\mu) + \mu\frac{2}{\pi}f(0).
+	\end{align*}
+	Here, the behavior is almost the same as that of the Fourier transform, except we have an extra  $\mu\frac{2}{\pi}f(0)$ term. Usually, we will make use of the Fourier sine transform when  $f(0)$ is given to be 0, which eliminates this extra term.
+\end{proof}
+
+\textbf{Fourier cosine transform}
+
+The \emph{Fourier cosine transform} of a function $f$ is given by
+$$ \mathcal{F}_c[f](\mu) := F_c(\mu) = \frac{2}{\pi} \int_{0}^{\infty} f(x) \cos(\mu x) dx. $$
+Similarly, there is also an \emph{inverse Fourier cosine transform}, given by
+$$f(x) = \int_{0}^{\infty} \mathcal{F}_c[f](\mu) \cos(\mu x) d\mu.$$
+
+The Fourier cosine transform also has a special property when applied onto the second derivative of a function, namely
+$$\mathcal{F}_c[f^{\prime\prime}](\mu) = -\mu^2\mathcal{F}_c[f](\mu) + \frac{2}{\pi}f^\prime(0).$$
+
+\begin{proof}
+	We prove this by performing integration by parts on the Fourier cosine transform. Again, we assume that $f$ belongs to the Schwartz space:
+	\begin{align*}
+	\mathcal{F}_c[f^{\prime\prime}](\mu) &= \frac{2}{\pi} \int_{0}^{\infty} f^{\prime\prime}(x) \cos(\mu x) dx \\
+	&= \frac{2}{\pi}\left(\left[f^{\prime} \cos(\mu x) \right]_{0}^{\infty} + \mu \int_{0}^{\infty} f^{\prime}(x) \sin(\mu x) dx \right)\\
+	&= \frac{2}{\pi}\left((0-f^\prime(0)) + \mu \left[f(x) \sin(\mu x) \right]_{0}^{\infty} - \mu^2
+	\int_{0}^{\infty} f(x) \cos(\mu x) dx \right)\\
+	&= \frac{-2}{\pi}f^\prime(0) + 0 + \frac{-2\mu^2}{\pi}
+	\int_{0}^{\infty} f(x) \cos(\mu x) dx\\
+	&= -\mu^2\mathcal{F}_c[f](\mu) - \frac{2}{\pi}f^\prime(0).
+	\end{align*}
+	Again, the behavior is familiar, except we have an extra $- \frac{2}{\pi}f^\prime(0)$ term. Usually, we will make use of the Fourier cosine transform when  $f^\prime(0)$ is given to be 0, which eliminates this extra term.
+\end{proof}
+
+\textbf{A note about definitions}
+
+Sometimes, in different textbooks, the Fourier transform is defined differently than the one introduced here. For instance, we know from the inverse Fourier transform that
+$$f(x) = \int_{-\infty}^{\infty} \mathcal{F}[f](\mu) e^{i\mu x} d\mu,$$
+that is
+$$f(x) = \int_{-\infty}^{\infty} \left(\frac{1}{2\pi} \int_{-\infty}^{\infty} f(y) e^{-i\mu y} dy\right) e^{i\mu x} d\mu. $$ 
+But we can also write the above as
+$$f(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} \left(\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} f(y) e^{-i\mu y} dy\right) e^{i\mu x} d\mu. $$
+So, some will define the Fourier transform as
+$$ \mathcal{F}[f](\mu) := \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} f(x) e^{-i\mu x} dx, $$
+and the inverse Fourier transform as
+$$f(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} \mathcal{F}[f](\mu) e^{i\mu x} d\mu,$$ for the sake of symmetry.
+There are also other ways to define the Fourier transform and its inverse. Usually the differences will be between the coefficients at the front. The same applies to the Fourier sine and cosine transforms. However, for the following exercises, we will be using the definitions introduced at the start.
+
+\textbf{Sample exercise 1}
+
+Solve the following initial value problem, eg. solve for $u(x,t)$, assuming that it is in the Schwartz space denoted by $S(\mathbb{R})$.
+\begin{align*}
+u_t &= Ku_{xx} &t>0, -\infty < x < \infty,&\\
+u(x,0) &= f(x) &-\infty < x < \infty&
+\end{align*}
+Note: $f(x)$ in the second condition is a known function and $K$ is a known scalar in the first condition. Also, $u_t = Ku_{xx}$ is just shorthand notation for $\frac{\partial u}{\partial t} = K\frac{\partial^2 u}{\partial x^2}$.
+We can then write
+$$\frac{\partial u}{\partial t} - K\frac{\partial^2 u}{\partial x^2} = 0.$$
+Applying the Fourier transform yields,
+$$\mathcal{F}\left[\frac{\partial}{\partial t} u(\cdot,t)\right](\mu) - K \mathcal{F}\left[\frac{\partial^2}{\partial x^2} u(\cdot,t) \right](\mu) = 0,$$
+where $u(\cdot,t)$ is written to denote that although $u$ is a function of $x$ and $t$, we are taking the Fourier transform with respect to $x$. We also know what the Fourier transform does to the derivatives of a function, so
+$$\mathcal{F}\left[\frac{\partial}{\partial t} u(\cdot,t)\right](\mu) + K\mu^2 \mathcal{F}\left[ u(\cdot,t) \right](\mu) = 0.$$	
+Also, since we are working in the Schwartz space and the functions in the space are smooth, we can swap order of integration and differentiation. 
+Hence,
+$$\frac{\partial}{\partial t}\mathcal{F}\left[u(\cdot,t)\right](\mu) + K\mu^2 \mathcal{F}\left[ u(\cdot,t) \right](\mu) = 0,$$
+Now, we will write define $\alpha(t) := \mathcal{F}\left[u(\cdot,t)\right](\mu)$. Although $\alpha$ is a function of both $t$ and $\mu$, we write $\alpha(t)$ for simplicity. Then,
+$$\frac{\partial}{\partial t}\alpha(t) + K\mu^2 \alpha(t) = 0.$$
+Now, this is a ordinary differential equation with the solution $\alpha(t) = e^{-K\mu^2t}\beta(\mu)$ for some $\beta(\mu)$. Setting $t$ to 0 yields
+$\alpha(0) = e^{-K\mu^20}\beta(\mu) = \beta(\mu)$. So, we can rewrite $\alpha(t)$ as
+$$\alpha(t) = e^{-K\mu^2t}\alpha(0).$$
+
+Now, because we know from the initial condition that $u(x,0) = f(x)$, and $\alpha(t) := \mathcal{F}\left[u(\cdot,t)\right](\mu)$, we can write
+$$\alpha(0) = \mathcal{F}\left[u(\cdot,0)\right](\mu)=\mathcal{F}\left[f\right](\mu).$$
+
+So, $$\alpha(t) = e^{-K\mu^2t}\mathcal{F}\left[f\right](\mu).$$
+
+Now, we know exactly what $\alpha$ is because $f$ is a known function. Furthermore, we have defined $\alpha$ to be the Fourier transform of $u(x,t)$, so we just need to perform the inverse Fourier transform to get $u(x,t)$. To be precise,
+$$u(x,t) = \int_{-\infty}^{\infty}e^{-K\mu^2t}\mathcal{F}\left[f\right](\mu) e^{-i\mu x} d\mu.$$
+Hence, the initial value problem is solved. Notice how the Fourier transform reduced a partial differential equation, which is difficult to solve, to an ordinary differential equation, which has a simple solution.
+
+\textbf{Sample exercise 2}
+
+Solve the following initial value problem, assuming that $u(x,t)$ is in the Schwartz space restricted from 0 to $\infty$, denoted by $S[0,\infty)$.
+\begin{align*}
+u_t &= Ku_{xx} & 0 < x, 0 < t ,&\\
+u(0,t) &= 0 &0 < t,&\\
+u(x,0) &= f(x) & 0 < x, &
+\end{align*}
+Note: $f(x)$ in the second condition is a known function and $K$ is a known scalar in the first condition. Also, $u_t = Ku_{xx}$ is just shorthand notation for $\frac{\partial u}{\partial t} = K\frac{\partial^2 u}{\partial x^2}$.
+We can then write
+$$\frac{\partial u}{\partial t} - K\frac{\partial^2 u}{\partial x^2} = 0.$$
+Now, we cannot apply the Fourier transform because $u$ is only defined when x is greater than 0, so we cannot integrate to negative $\infty$. However, we can use the Fourier sine or cosine transform instead, more specifically the Fourier sine transform because we know that $u(0,t) = 0$.
+
+Applying the Fourier sine transform yields,
+$$\mathcal{F}_s\left[\frac{\partial}{\partial t} u(\cdot,t)\right](\mu) - K \mathcal{F}_s\left[\frac{\partial^2}{\partial x^2} u(\cdot,t) \right](\mu) = 0,$$
+where $u(\cdot,t)$ is written to denote that although $u$ is a function of $x$ and $t$, we are taking the Fourier sine transform with respect to $x$. We also know what the Fourier sine transform does to the second derivative of a function, so
+$$\mathcal{F}_s\left[\frac{\partial}{\partial t} u(\cdot,t)\right](\mu) + K\mu^2 \mathcal{F}_s\left[ u(\cdot,t) \right](\mu) = 0.$$	
+
+At this point, all of the upcoming steps will be almost a perfect mirror of that of the first example.
+
+Since we are working in the Schwartz space and the functions in the space are smooth, we can swap order of integration and differentiation. 
+Hence,
+$$\frac{\partial}{\partial t}\mathcal{F}_s\left[u(\cdot,t)\right](\mu) + K\mu^2 \mathcal{F}_s\left[ u(\cdot,t) \right](\mu) = 0,$$
+Now, we will write define $\alpha(t) := \mathcal{F}_s\left[u(\cdot,t)\right](\mu)$. Although $\alpha$ is a function of both $t$ and $\mu$, we write $\alpha(t)$ for simplicity. Then,
+$$\frac{\partial}{\partial t}\alpha(t) + K\mu^2 \alpha(t) = 0.$$
+Now, this is a ordinary differential equation with the solution $\alpha(t) = e^{-K\mu^2t}\beta(\mu)$ for some $\beta(\mu)$. Setting $t$ to 0 yields
+$\alpha(0) = e^{-K\mu^20}\beta(\mu) = \beta(\mu)$. So, we can rewrite $\alpha(t)$ as
+$$\alpha(t) = e^{-K\mu^2t}\alpha(0).$$
+
+Now, because we know from the initial condition that $u(x,0) = f(x)$, and $\alpha(t) := \mathcal{F}_s\left[u(\cdot,t)\right](\mu)$, we can write
+$$\alpha(0) = \mathcal{F}_s\left[u(\cdot,0)\right](\mu)=\mathcal{F}\left[f\right](\mu).$$
+
+So, $$\alpha(t) = e^{-K\mu^2t}\mathcal{F}_s\left[f\right](\mu).$$
+
+Now, we know exactly what $\alpha$ is because $f$ is a known function. Furthermore, we have defined $\alpha$ to be the Fourier sine transform of $u(x,t)$, so we just need to perform the inverse Fourier sine transform to get $u(x,t)$. To be precise,
+$$u(x,t) = \int_{0}^{\infty}e^{-K\mu^2t}\mathcal{F}_s\left[f\right](\mu) \sin(\mu x) d\mu.$$
+Hence, the initial value problem is solved.
 % It all goes within a single section, so begin with a \subsection{...}, not a \section{...}
 % Don't try to compile this file alone, instead compile GITREPO/master/student-lecture-all or GITREPO/master/student-lecture-toto
 % which input this file.
