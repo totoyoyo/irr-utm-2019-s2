@@ -1,1 +1,16 @@
-The statement of the problem.
+We seek $q:[0,1]\times[0,T]\to\CC$ such that
+\begin{subequations} \label{eqn:Problem}
+\begin{align}
+    \label{eqn:Problem.PDE}
+    [\partial_t+\partial_{xxx}]q(x,t) &= 0 & (x,t) &\in (0,1)\times(0,T), \\
+    \label{eqn:Problem.IC}
+    q(x,0) &= q_0(x) & x &\in[0,1], \\
+    \label{eqn:Problem.BC0}
+    q(0,t) &= g_0(t) & t &\in [0,T], \\
+    \label{eqn:Problem.BC1}
+    q(1,t) &= g_1(t) & t &\in [0,T], \\
+    \label{eqn:Problem.BC2}
+    q_x(1,t) &= g_2(t) & t &\in [0,T],
+\end{align}
+\end{subequations}
+in which $q_0,g_0,g_1,g_2$ are all known smooth functions.
