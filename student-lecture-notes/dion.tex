@@ -2,7 +2,7 @@
 For a function $f$, we are able to perform a Fourier Transform on it to convert to $F$, and find solutions to the equations involving $F$.
 However, we ultimately want the solutions to the equations involving $f$, not to its Fourier Transform.
 Therefore, this approach will be useless if we cannot guarantee that we can convert $F$ back to $f$.
-The Convergence Theorem for Fourier Transforms provides us with the guarantee that performing an inverse Fourier Transform on $F$ will get us back exactly $f$, except at the jump discontuities of $f$.
+The Convergence Theorem for Fourier Transforms provides us with the guarantee that performing an inverse Fourier Transform on $F$ will get us back exactly $f$, except at the jump discontinuities of $f$.
 
 \begin{defn}[Fourier Transform] \label{FTdefn}
 The Fourier Transform of function $f$, denoted $F$, is defined as
@@ -222,7 +222,7 @@ and $f'(t)$ exists if and only if $(\mbox{Re }f )'(t)$ and $(\mbox{Im }f )'(t)$ 
 \begin{enumerate}
     \item $(\alpha f + \beta g)'(t) = \alpha f' (t) + \beta g' (t)$.
     \item $(fg)'(t) = f' (t) g (t) + f (t) g' (t)$ (Product rule).
-    \item $(f \circ g)'(t) = f(g(t))g'(t)$ (Chain rule).
+    \item $(f \circ g)'(t) = f'(g(t))g'(t)$ (Chain rule).
 \end{enumerate}
 
 \subsection{Complex Integration}
@@ -255,7 +255,7 @@ This definition is based on the definition of differentiation.
 \begin{thm}[Fundamental Theorem of Calculus]
 Suppose that $f$ is a piecewise
 continuous complex-valued function on the interval $[a, b]$ and let $F$ be a continuous antiderivative of $f$ in $[a, b]$. Then
-$$\int_a^b f(t) \mathrm{d}t = F(a) - F(b).$$
+$$\int_a^b f(t) \mathrm{d}t = F(b) - F(a).$$
 \end{thm}
 This theorem links the previously independent concepts of differentiation and integration.
 
