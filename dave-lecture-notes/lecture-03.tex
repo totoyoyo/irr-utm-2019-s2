@@ -1,3 +1,131 @@
-This will contain Dave's third lecture
+% This will contain Dave's third lecture
 
 % You can find the first 8 pages in REPO/dave-lecture-notes/handwritten/Lecture2.pdf after Wednesday week 11.
+\subsection*{Stage 2}
+Assume that $q$ satisfies not only the PDE and the initial condition, but also the boundary conditions, which are:
+\[ 
+q(0,t) = g_0(t) \qquad q(1,t) = g_1(t), \qquad t \in [0, T].
+\]
+Then, 
+\begin{align*}
+f_0(\lambda;  0, \tau) &= \int^{\tau}_0 e^{\lambda^2 s} q(0,s) ~\mathrm{d}s =  \int^{\tau}_0 e^{\lambda^2 s} g_0(s) ~\mathrm{d}s =: h_0(\lambda; \tau), \\
+f_0(\lambda;  1, \tau) &= \int^{\tau}_0 e^{\lambda^2 s} q(1,s) ~\mathrm{d}s =  \int^{\tau}_0 e^{\lambda^2 s} g_1(s) ~\mathrm{d}s =: h_1(\lambda; \tau)
+\end{align*}
+are both known. But $f_1(\lambda;  0, \tau)$ and $f_1(\lambda;  1, \tau)$ are both unknown. Note that if we \emph{did} know these, then the problem would be overspecified. In general, at most half of the $f_j(\lambda;  x, \tau)$ may be explicitly specified by the boundary conditions. 
+
+We need equations involving $f_1(\lambda;  0, \tau)$ and $f_1(\lambda;  1, \tau).$ We have (GR). After applying the boundary conditions, (GR) becomes 
+\[ 
+\underbrace{f_1(\lambda;  0, \tau)}_\text{unknown} -~ e^{-i \lambda}\underbrace{f_1(\lambda;  1, \tau)}_\text{unknown}= \overbrace{- i \lambda h_0(\lambda; \tau) + i \lambda e^{-i\lambda} h_1(\lambda; \tau)  + \widehat{q_0}(\lambda)}^\text{data} -~ e^{\lambda^2 \tau} \underbrace{\widehat{q}(\lambda; \tau)}_\text{also unknown!}.
+\] 
+What good is this? We had 2 unknowns:
+\begin{enumerate}
+\item[(i)] We only introduced 1 equation; surely we need 2 linearly independent equations.
+\item[(ii)] We also introduced an extra unknown.
+\end{enumerate}
+It appears we have achieved nothing!
+
+Let us, temporarily, ignore the issue (ii). Consider applying the maps $\lambda \mapsto \lambda$ and $\lambda \mapsto -\lambda$ to (GR). Observe that 
+\[ f_j(-\lambda;  X, \tau) = f_1(\lambda;  X, \tau),\]
+since $f_j$ depends on $\lambda$ only through $\lambda^2,$ not through $\lambda$ directly. But the coefficient $e^{-i\lambda}$ is not preserved by $\lambda \mapsto -\lambda.$ So, (GR)$\mid_{\lambda \mapsto \lambda}$ and (GR)$\mid_{\lambda \mapsto -\lambda}$ yield a system of two linearly independent equations in the two unknowns:
+\[
+\begin{bmatrix}
+1 & -e^{-i\lambda} \\
+1 & -e^{i\lambda}
+\end{bmatrix}
+\begin{bmatrix}
+f_1(\lambda;  0, \tau) \\
+f_1(\lambda;  1, \tau)
+\end{bmatrix}
+= 
+\underbrace{
+\begin{bmatrix}
+M(\lambda, \tau) \\
+M(-\lambda, \tau)
+\end{bmatrix}
++ 
+\begin{bmatrix}
+\widehat{q_0}(\lambda) \\
+\widehat{q_0}(-\lambda)
+\end{bmatrix}}_\text{data}
+- ~e^{\lambda^2 \tau} \underbrace{ 
+\begin{bmatrix}
+\widehat{q}(\lambda; \tau) \\
+\widehat{q}(-\lambda; \tau)
+\end{bmatrix}}_\text{pretend these are data},
+\]
+where $M(\lambda; \tau) = - i \lambda h_0(\lambda; \tau) + i \lambda e^{-i \lambda} h_1(\lambda; \tau).$ Note that the data vector takes the form $\displaystyle \begin{bmatrix}
+\phi(\lambda) \\
+\phi(-\lambda)
+\end{bmatrix}.$ Of course it does, because it is the origin of the system, but it makes for a notational simplification. Now, we solve the system using Cramer's rule. Let 
+\begin{align*}
+\Delta (\lambda) &= -2i \sin(\lambda) &&\text{Determinant of the system;} \\
+\zeta^+ (\lambda; \phi) &= - \phi(\lambda)e^{i \lambda} +  \phi(-\lambda)e^{-i \lambda} &&\text{Determinant where the 1st column has been replaced by $(\phi(\lambda), \phi(-\lambda))$;} \\
+\zeta^- (\lambda; \phi) &= - \phi(\lambda) +  \phi(-\lambda) &&\text{Determinant where the 2nd column has been replaced by $(\phi(\lambda), \phi(-\lambda)).$} \\
+\end{align*}
+Then, 
+\begin{align*}
+i \lambda f_0( \lambda; 0, \tau) + f_1(\lambda; 0 \tau) &=\underbrace{i \lambda h_0(\lambda; \tau) + \frac{\zeta^+ (\lambda; M(\cdot; \tau)) }{\Delta (\lambda)} + \frac{\zeta^+ (\lambda; \widehat{q_0}) }{\Delta (\lambda)}}_\text{data} - \underbrace{e^{\lambda^2 \tau} \frac{\zeta^+ (\lambda; \widehat{q}(\cdot; \tau))}{\Delta (\lambda)}}_\text{not data}, \\
+i \lambda f_0( \lambda; 1, \tau) + f_1(\lambda; 1 \tau) &= \underbrace{i \lambda h_1(\lambda; \tau) + \frac{\zeta^- (\lambda; M(\cdot; \tau)) }{\Delta (\lambda)} + \frac{\zeta^- (\lambda; \widehat{q_0}) }{\Delta (\lambda)}}_\text{data}  - \underbrace{e^{\lambda^2 \tau} \frac{\zeta^- (\lambda; \widehat{q}(\cdot; \tau))}{\Delta (\lambda)}}_\text{not data}.
+\end{align*}
+Substituting into the Ehrenpreis form we get 
+\begin{align*}
+2 \pi q(x;t) &= \int^{\infty}_{-\infty} e^{i\lambda x - \lambda^2 t} \widehat{q_0}(\lambda) ~\mathrm{d}\lambda -  \int_{\partial D^+} data ~\mathrm{d}\lambda -  \int_{\partial D^-} data ~\mathrm{d}\lambda \\
+&+ \int_{\partial D^+} e^{i\lambda x} e^{\lambda^2(\tau - t)}\frac{\zeta^+ (\lambda; \widehat{q}(\cdot; \tau))}{\Delta (\lambda)} ~\mathrm{d}\lambda \\
+&+ \int_{\partial D^-} e^{i\lambda(x-1)} e^{\lambda^2(\tau - t)}\frac{(- \widehat{q}(\lambda, \tau) + \widehat{q}(-\lambda, \tau))}{e^{-i\lambda} - e^{i \lambda}} ~\mathrm{d}\lambda.
+\end{align*}
+This requires some justification:
+\begin{enumerate}
+\item[(i)] This integral over $\partial D^+$ has been split into two parts with different integrands. The integrands are now meromorphic rather than analytic so we have to be sure we did not integrate over any zeros of $\Delta.$ In this case, the only zero of $\Delta$ we hit is at the origin and that turns out to be a removable singularity of the integrand. In general, some small circular contour deformations may be necessary to avoid such an issue. 
+\item[(ii)] Although the original integral converged, each constituent part might not. However, it turns out this will be fine, as described below.
+\end{enumerate}
+Now, we aim to show that the terms involving $\widehat{q}(\lambda, \tau)$ evaluate to $0.$ This is essential to get an effective solution representation that depends only upon the data of the problem. It will also justify that above splitting of integrals. Ratio in the integral $\displaystyle\int_{\partial D^-}$ is 
+\[ 
+e^{\lambda^2(\tau - t)} 
+\left( 
+\frac{-\widehat{q}(\lambda, \tau) + \widehat{q}(-\lambda, \tau)}{e^{-i\lambda} - e^{i\lambda}}
+\right).
+\]
+Note that as $\lambda \to \infty$ from within $\text{clos}(D^-),$ the terms 
+\begin{enumerate}
+\item[(i)] $e^{-i\lambda}, \widehat{q}(\lambda; \tau)$ decay;
+\item[(ii)] $e^{i\lambda}, \widehat{q}(-\lambda; \tau)$ blow up;
+\item[(iii)] $e^{\lambda^2(\tau - t)}$ decays, or at worst, is oscillatory,
+\end{enumerate}
+which means that 
+\begin{align*}
+e^{\lambda^2(\tau - t)} 
+\left( 
+\frac{-\widehat{q}(\lambda, \tau) + \widehat{q}(-\lambda, \tau)}{e^{-i\lambda} - e^{i\lambda}}
+\right)
+ &= e^{\lambda^2(\tau - t)} 
+\left( 
+- e^{-i\lambda}\widehat{q}(-\lambda, \tau)  - \mathcal{O}(e^{-|\lambda|/\sqrt{2}} )
+\right)
+\\
+&= e^{\lambda^2(\tau - t)} 
+\left( 
+- \int^1_0 e^{-i\lambda(1 - y)} q(y, \tau)~\mathrm{d}y  - \mathcal{O}(e^{-|\lambda|/\sqrt{2}})
+\right)
+\\ 
+&= \mathcal{O}(|\lambda|^{-1}), &&\text{(integration by parts)}
+\end{align*}
+uniformly in argument $\lambda,$ as $\lambda \to \infty$ from within $\text{clos}(D^-).$ Hence, by Jordan's lemma, 
+\[ 
+\int_{\partial D^-} e^{i\lambda(x-1)} e^{\lambda^2(\tau - t)}\frac{- \widehat{q}(\lambda, \tau) + \widehat{q}(-\lambda, \tau)}{e^{-i\lambda} - e^{i \lambda}} ~\mathrm{d}\lambda = 0.
+\]
+By a similar argument, we have that 
+\[ 
+\int_{\partial D^+} e^{i\lambda x} e^{\lambda^2(\tau - t)}\frac{\zeta^+ (\lambda; \widehat{q}(\cdot; \tau))}{\Delta (\lambda)} ~\mathrm{d}\lambda = 0.
+\]
+Thus, we have obtained the solution representation, in terms of contour integrals around $D:$
+\begin{equation}\label{SRt}
+\begin{aligned}
+2 \pi q(x;t) = \int^{\infty}_{-\infty} e^{i\lambda x - \lambda^2 t} \widehat{q_0}(\lambda) ~\mathrm{d}\lambda &- 
+\int_{\partial D^+}  e^{i\lambda x - \lambda^2 t} \left( i \lambda h_0(\lambda; \tau + \frac{\zeta^+(\lambda; M(\cdot; \tau) + \widehat{q_0}}{\Delta(\lambda)}\right)~\mathrm{d}\lambda \\
+&- 
+\int_{\partial D^-} e^{i\lambda(x-1) - \lambda^2 t} \left( i \lambda h_1(\lambda; \tau + \frac{\zeta^-(\lambda; M(\cdot; \tau) + \widehat{q_0}}{\Delta(\lambda)}\right) ~\mathrm{d}\lambda,
+\end{aligned}
+\tag{SR$\tau$}
+\end{equation}
+where $h_j, M, \widehat{q_0}, \Delta, \zeta^{\pm}$ are explicitly defined in terms of the datum of the problem. 
+\newline \textbf{Remark 1:} Every solution that exists must satisfy the equation \eqref{SRt}. Since \eqref{SRt} is explicit, existence implies uniqueness of the solution.
