@@ -1,1 +1,11 @@
-preliminaries
+%preliminaries
+Let $\hat{\phi}$ represent the spatial Fourier Transform, i.e.
+$$\widehat{\phi}(\lambda) := \int_{-\infty}^{\infty} \phi(x) e^{-i\lambda x} \mathrm{d}x = \int_{0}^{1} \phi(x) e^{-i\lambda x} \mathrm{d}x.$$
+Then, using integration by parts,
+\begin{align*}
+    \widehat{\frac{\mathrm{d}^3}{\mathrm{d}x^3}\phi}(\lambda) &= \int_{0}^{1} \phi'''(x) e^{-i\lambda x} \mathrm{d}x \\
+    &= \phi''(x) e^{-i\lambda x}\bigg\rvert_0^1 + i\lambda\int_{0}^{1} \phi''(x) e^{-i\lambda x} \mathrm{d}x \\
+    &= \left(\phi''(x) e^{-i\lambda x} + i\lambda \phi'(x) e^{-i\lambda x} \right)\bigg\rvert_0^1 - \lambda^2\int_{0}^{1} \phi'(x) e^{-i\lambda x} \mathrm{d}x \\
+    &= \left(\phi''(x) e^{-i\lambda x} + i\lambda \phi'(x) e^{-i\lambda x} - \lambda^2 \phi(x) e^{-i\lambda x}\right) \bigg\rvert_0^1 - i\lambda^3\int_{0}^{1} \phi(x) e^{-i\lambda x} \mathrm{d}x \\
+    &= \left(\phi''(x) e^{-i\lambda x} + i\lambda \phi'(x) e^{-i\lambda x} - \lambda^2 \phi(x) e^{-i\lambda x}\right) \bigg\rvert_0^1 - i\lambda^3\widehat\phi(\lambda). \\
+\end{align*}
