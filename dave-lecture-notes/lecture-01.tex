@@ -1,4 +1,143 @@
-This will contain Dave's first lecture
-
 % You can find the first 8 pages in REPO/dave-lecture-notes/handwritten/Lecture1.pdf.
 % The ninth page will be available after lecture 2.
+\section*{Introduction}
+
+\subsection{Review of Fourier transform methods for linear evolution equations}
+
+Consider fill line heat problem:
+\begin{align*}
+[\partial_t- \partial_{xx}]q(x,t) &= 0 &(x,t) &\in \mathbb{R} \times (0,T),&  &\text{(PDE)}\\
+q(x,0) &= q_0(x) & x &\in \mathbb{R}& &\text{(IC)},\\
+q(\cdot,t) &\in S(\mathbb{R}) & t &\in [0,T] & &\text{(BC)}. 
+\end{align*}
+
+where $q_0 \in S(\mathbb{R})$ and $S(\mathbb{R}) = \{\phi \in  C^\infty(\mathbb{R}) : \forall j, k \in \mathbb{N}_0, \lim_{\abs{x} \to \infty} x^k\phi^j(x) = c\}$, ie $\phi$ and all derivatives decay faster than all polynomials, the Schwartz space, the space of rapidly decaying functions.
+
+Take Fourier transform in space:
+$\widehat{\partial_tq}(\lambda;t) - \widehat{\partial_{xx}q}(\lambda;t) = 0$, where $\widehat{\cdot}$ is defined as $\widehat{\phi}(\lambda) = \int_{-\infty}^{\infty} e^{-i\lambda x}\phi(x) dx$. Note that the smoothness of $q$ ensures that the Fourier transform is a linear operator.
+But, 
+\begin{itemize}
+	\item "the Fourier transform turns differentiation into multiplication"
+	\item "the Fourier transform diagonalizes the derivative operator"
+\end{itemize}
+Precisely,
+\begin{align*}
+	\widehat{\frac{d^2}{dx^2}\phi}(\lambda) &= \int_{-\infty}^{\infty} e^{-i\lambda x}\phi''(x)dx \\
+	&=\left[e^{-i\lambda x}(\phi'(x)+ i\lambda\phi(x)) \right]_{x=-\infty}^{x=\infty} - \lambda^2\int_{-\infty}^{\infty}e^{-i\lambda x}\phi(x)dx\\
+	&=\lim_{x \to \infty}\left[e^{-i\lambda x}(\phi'(x)+ i\lambda\phi(x)) \right] - \lim_{y \to -\infty}\left[e^{-i\lambda y}(\phi'(y)+ i\lambda\phi(y)) \right] - \lambda^2\widehat{\phi}(\lambda)\\
+	& = 0 - 0 - \lambda^2\widehat{\phi}(\lambda), \forall \phi \in S(\mathbb{R}).
+\end{align*}
+
+So, $\frac{d^2}{dx^2}\widehat{q}(\lambda;t) + \lambda^2\widehat{q}(\lambda;t) = 0.$ For each $\lambda \in \mathbb{R}$ this is an ODE for $\widehat{q}(\lambda;\cdot)$. Also note: interchanging the limits as we did earlier requires some assumption of smoothness in $t$. Let's just suppose it works for now.
+
+Now to solve the ODE:
+
+\begin{align*}
+\implies \widehat{q}(\lambda;t) &= e^{-\lambda^2t}\widehat{q}(\lambda;0)  = e^{-\lambda^2t}\int_{-\infty}^{\infty}e^{-i\lambda x}q(x,0)dx\\
+&=e^{-\lambda^2t}\int_{-\infty}^{\infty}e^{-i\lambda x}q_0(x)dx = e^{-\lambda^2t}\widehat{q_0}(\lambda)\\
+\implies q(x,t )&= \frac{1}{2\pi} \int_{-\infty}^{\infty}e^{i\lambda x - \lambda^2t}\widehat{q_0}(\lambda)d\lambda.\\
+\end{align*}
+
+All done under assumption $\exists$ such $q$. But under that assumption, we have
+\begin{itemize}
+	\item Solution formula
+	\item Uniqueness of such q
+\end{itemize}
+
+Now to justify existence, let $u(x,t) = \frac{1}{2\pi} \int_{-\infty}^{\infty}e^{i\lambda x - \lambda^2t}\widehat{q_0}(\lambda)d\lambda$, and show $u$ satisfies the problem for q.
+
+IC:
+$$u(x,0) = \frac{1}{2\pi} \int_{-\infty}^{\infty}e^{i\lambda x}\widehat{q_0}(\lambda)d\lambda = q_0(x)$$
+
+BC:
+\begin{align*}
+q_0 &\in S(\mathbb{R}) \implies \widehat{q_0} \in  S(\mathbb{R}) \\
+&\implies \forall t \in [0,T]\quad e^{-\lambda^2t}\widehat{q_0}(\lambda) \in S(\mathbb{R})\\
+&\implies \forall t \in [0,T]\quad \widehat{e^{-\lambda^2t}\widehat{q_0}(\lambda)} \in S(\mathbb{R})\\
+&\implies \forall t \in [0,T]\quad 2\pi u(-\cdot,t) \in S(\mathbb{R})\\
+&\implies \forall t \in [0,T]\quad u(\cdot,t) \in S(\mathbb{R})
+\end{align*}
+
+PDE:
+$$ u_t = \frac{1}{2\pi} \int_{-\infty}^{\infty}-\lambda^2e^{i\lambda x-\lambda^2t}\widehat{q_0}(\lambda)d\lambda = u_{xx}$$
+$u$ satisfies the problem, so it is unique by earlier argument, and we have explicit (double integral) expression for $u$.
+
+Now, consider the half line homogeneous Dirichlet heat problem,
+\begin{align*}
+[\partial_t- \partial_{xx}]q(x,t) &= 0 &(x,t) &\in (0,\infty) \times (0,T),&  &\text{(PDE)}\\
+q(x,0) &= q_0(x) & x &\in [0,\infty)& &\text{(IC)},\\
+q(0,t) &= 0, \quad q(\cdot,t) \in S[0,\infty) & t &\in [0,T] & &\text{(BC)}. 
+\end{align*}
+where $q_0 \in S[0,\infty)$ known and
+$$S[0,\infty) = \{\phi = \psi|_{0,\infty}: \psi\in S(\mathbb{R})\}$$ ie smooth functions on the half line rapidly decaying at $+\infty$.
+
+Interaction of half line Fourier transform with Dirichlet heat half line derivative operator:
+\begin{align*}
+\widehat{\frac{d^2}{dx^2}\phi}(\lambda) &= \int_{0}^{\infty}e^{-i\lambda x} \phi''(x)dx\\
+&= \lim_{x\to\infty}\left[e^{-i\lambda x}(\phi'(x) + i\lambda\phi(x)) \right] - (\phi'(0) + i\lambda\phi(0)) - \lambda^2\widehat{\phi}(\lambda)\\
+&= 0 - \phi(0) - i\lambda0 - \lambda^2\widehat{\phi}(\lambda)
+\end{align*}
+So the ODE for applying spatial Fourier transform to PDE is not so simple:
+$$\frac{d}{dt}\widehat{q}(\lambda;t) + \lambda^2\widehat{q}(\lambda;t) + q_x(0,t) = 0.$$
+Try a different idea: Fourier sine transform
+$$[\mathcal{F}_s\phi](\lambda) := \int_{0}^{\infty}\sin(\lambda x)\phi(x)dx,$$
+has the property
+\begin{align*}
+[\mathcal{F}_s\phi''](\lambda) &= \int_{0}^{\infty}sin(\lambda x)\phi''(x)dx\\
+&= \left[\sin(\lambda x)\phi'(x) - \lambda\cos(\lambda x)\phi(x) \right]_{x=0}^{x=\infty} - \lambda^2\int_{0}^{\infty}sin(\lambda x)\phi(x)dx\\
+&= 0 - \sin(0)\phi'(0) +\lambda \cos(0)\phi(0) - \lambda^2[\mathcal{F}_s\phi](\lambda)\\
+&= - \lambda^2[\mathcal{F}_s\phi](\lambda)
+\end{align*}
+So we get a simple ODE in $t$ for $[\mathcal{F}_sq(\cdot;t)](\lambda) $, and proceed as before.
+
+Similarly, for the half-line homogeneous Neumann heat problem, we use the Fourier cosine transform, and h-transforms can be used for Robin problems.
+
+\subsection*{Conclusions}
+
+Fourier transform methods:
+\begin{enumerate}
+	\item Choose the "right" version of the Fourier transform by studying how it interacts with the boundary conditions.
+	\item Assume the problem has a solution. Obtain an explicit formula representing that solution. This argument gives uniqueness for free.
+	\item Take the formula obtained above, and show that function as defined solves the problem.
+\end{enumerate}
+
+\subsection{Review of Fourier series methods for linear evolution equations}
+Finite interval homogeneous Dirichlet heat problem.
+
+\begin{align*}
+[\partial_t- \partial_{xx}]q(x,t) &= 0 &(x,t) &\in (0,1) \times (0,T),&  &\text{(PDE)}\\
+q(x,0) &= q_0(x) & x &\in [0,1]& &\text{(IC)},\\
+q(0,t) &= 0, \quad q(1,t) =0 & t &\in [0,T] & &\text{(BC)}. 
+\end{align*}
+Sketch of argument (partial)
+\begin{itemize}
+	\item Seperate variables
+	\item Solve temporal ODE
+	\item Solve spatial Sturm-Liouville Problem
+	\item Assume the problem has a solution and that solution is expressible as an expansion in the solution of the SLP, ie the eigenfunctions of the SLP are a complete system...
+\end{itemize}
+But this assumption is not always reasonable. For problems of spatial order 2, classical Sturm-Liouville theory guarantees the completeness. But not for 3rd order (Jackson 1915, Hopkins 1919)
+
+\subsection*{Conclusions}
+This argument
+\begin{itemize}
+	\item relies on an extra completeness assumption (disadvantage)
+	\item solving SLP is algorithmic, while choosing the "right" kind of Fourier transform is difficult
+\end{itemize}
+
+\subsection*{Aim}
+Devise a method, applicable to finite interval problems, but without the "requires completeness" requirement. Should work for problems of arbitrary spatial order with arbitrary linear boundary conditions.
+
+\section{The Fokas unified transform method via ad-hoc derivation}
+
+\subsection{A 3 stage method}
+Here the method is viewed as an ad-hoc extension of the Fourier transform method. Because the "right" integral transform is not known in advance, it is not exactly analogous to the Fourier transform methods studied in 1.1.
+
+\subsection*{Stage 1} Assume the problem has a solution. Obtain
+\begin{enumerate}
+	\item Ehrenpreis Form: a formula for the solution in terms of complex contour integrals of transforms the initial datum and boundary values.
+	\item Global Relation: an equation relating transforms of the solution on boundaries of the space-time domain.
+\end{enumerate}
+
+\subsection*{Stage 2}
+Continue under the existence assumption. Data to uNknown Map (D to N map). Use the boundary conditions and global relation to obtain expressions for transforms of the boundary values and substitute into the Ehrenpreis form to obtain an effective integral representation of the solution. We now have uniqueness and solution representation, under assumption of existence. 
