@@ -2,33 +2,9 @@ This will contain Dave's second lecture
 
 % You can find the first 8 pages in REPO/dave-lecture-notes/handwritten/Lecture2.pdf after Wednesday week 10.
 
-\documentclass[11pt, oneside, a4paper]{article}
-\input{preamble.tex}
-\input{mypreamble.tex}
-\usepackage{scalerel,stackengine}
-\stackMath
-\newcommand\reallywidehat[1]{%
-\savestack{\tmpbox}{\stretchto{%
-  \scaleto{%
-    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
-    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
-  }{\textheight}% 
-}{0.5ex}}%
-\stackon[1pt]{#1}{\tmpbox}%
-}
-
-%---header/style/enumeration-------
-\pagestyle{fancy}
-\lhead{YIR3311}
-\chead{IRR: UTM Lecture Notes}
-\rhead{2018-07-15}
-
-\begin{document}
-
 {\Large \bf 2.2: Finite interval homogeneous Dirichlet heat problem}
 
 \bigskip
-
 \bigskip
 
 Consider
@@ -162,4 +138,3 @@ We started by assuming that a solutions exists and showed that any solution must
 \end{aligned}
 \end{equation*}
 where $\widehat{q_0}(\lambda) = \int_0^1e^{-i\lambda y}q_0(y)dy$ is known and $f_i(\lambda,x,\tau) = \int_0^\tau e^{\lambda^2s}\partial_x^jq(x,s)ds$ is unknown. So (EF$\tau$) is not an explicit representation of the solution; we will have work to do.
-\end{document}
