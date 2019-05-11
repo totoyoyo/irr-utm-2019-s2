@@ -1,3 +1,165 @@
 This will contain Dave's second lecture
 
 % You can find the first 8 pages in REPO/dave-lecture-notes/handwritten/Lecture2.pdf after Wednesday week 10.
+
+\documentclass[11pt, oneside, a4paper]{article}
+\input{preamble.tex}
+\input{mypreamble.tex}
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+
+%---header/style/enumeration-------
+\pagestyle{fancy}
+\lhead{YIR3311}
+\chead{IRR: UTM Lecture Notes}
+\rhead{2018-07-15}
+
+\begin{document}
+
+{\Large \bf 2.2: Finite interval homogeneous Dirichlet heat problem}
+
+\bigskip
+
+\bigskip
+
+Consider
+\begin{alignat*}{3}  
+    [\partial_t - \partial_{xx}]q(x,t) &= 0 & \qquad \qquad (x,t) &\in (0,1) \times (0,T) & \qquad \qquad (\text{PDE}),\\
+    q(x;0) &= q_0(x) &\qquad \qquad x &\in [0,1]  & \qquad \qquad (\text{IC}),\\
+    q(0;t) = g_0(t),\, q(1;t) &= g_1(t) &\qquad \qquad t &\in [0,T] & \qquad \qquad (\text{BC}),
+\end{alignat*}
+
+where $q_0, g_i$ are appropriately smooth (i.e. in $\C^\infty$). We use $\widehat{\varphi}$ to represent the spatial Fourier transform of $\varphi \in \C^\infty[0,1]$.
+
+\bigskip
+
+\textbf{Preliminary work}: How does $\widehat{\cdot}$ interact with the second derivative operator on $\C^\infty[0,1]$?
+\begin{align*}
+    \widehat{-\frac{d^2}{dx^2}\varphi}(\lambda) &= -\int_0^1e^{-i\lambda x}\varphi''(x)\,dx\\ &= -\left[e^{-i\lambda x(\varphi'(x) + i\lambda\varphi(x))}\right]_{x = 0}^{x=1} + \lambda^2\int_0^1e^{-i\lambda x}\varphi(x)\,dx\\
+    &= \left[\varphi'(0) + i\lambda\varphi(0)\right] - e^{-i\lambda}\left[\varphi'(1) + i\lambda\varphi(1)\right] + \lambda^2\widehat{\varphi}(\lambda).
+\end{align*}
+
+\bigskip
+
+{\large \bf 2.2.1: Stage 1}
+
+\bigskip
+
+Assume $\exists\, q: [0,1]\times[0,T] \to \C$ is as smooth as we need, satisfying (PDE) and (IC).
+
+Apply Fourier transform to (PDE) gives
+\begin{align*}
+    0 &= \reallywidehat{[\partial_t - \partial_{xx}]q}(\lambda;t)\\ &= \left[\frac{d}{dt}+\lambda^2\right] \widehat{q}(\lambda;t) + (\partial_x\,q(0;t) + i\lambda\,q(0;t)) - e^{-i\lambda}(\partial_x\,q(1;t) + i\lambda\,q(1;t))\\
+    &= \frac{d}{dt}\left(e^{\lambda^2 t}\widehat{q}(\lambda;t)\right) + e^{\lambda^2t}(\partial_x\,q(0;t) + i\lambda\,q(0;t)) - e^{-i\lambda + \lambda^2t}(\partial_x\,q(1;t) + i\lambda\,q(1;t)).
+\end{align*}
+
+Integrate in time to solve the ODE for $\widehat{g}(\lambda;\cdot)$, we obtain
+\begin{align*}
+    0 &= e^{\lambda^2t}\widehat{q}(\lambda;t) - \widehat{q}(\lambda;0) + \int_0^t(\partial_x\,q(0;s) + i\lambda\,q(0;s))\,ds \\
+    &\qquad \qquad - e^{-i\lambda}\int_0^te^{\lambda^2s}(\partial_x\,q(1;s) + i\lambda\,q(1;s)\,ds.
+\end{align*}
+Note that (IC) $\implies \widehat{q}(\lambda;0) = \widehat{q_0}(\lambda)$. Also introduce notation \[f_j(\lambda,x,t) := \int_0^te^{\lambda^2s}\partial_x^j\,q(x;s)\,ds.\]
+Then
+\[\widehat{q_0}(\lambda) - e^{\lambda^2t}\widehat{q}(\lambda;t) = -e^{-i\lambda}\left(i\lambda\,f_0(\lambda,1,t) + f_1(\lambda,1,t)\right) + i\lambda(f_0(\lambda,0,t) + f_1(\lambda,0,t)) \quad \text{(GR)},\]
+which is valid $\forall\,\lambda\in\C, \forall\, t\in[0,T]$.
+
+(GR) is the global relation. It relates the Fourier transform of the solution to the Fourier transform of the initial datum and temporal transforms of the Dirichlet and Neumann boundary values.
+
+Now solve for $q(x;t)$. Rearrange gives
+\[\widehat{q}(\lambda;t) = e^{-\lambda^2t}\widehat{q_0}(\lambda) - e^{-\lambda^2t}(i\lambda f_0(\lambda,0,t) + f_1(\lambda,0,t)) + e^{-i\lambda - \lambda^2t}(i\lambda f_0(\lambda, 1, t) + f_1(\lambda,1,t)).\]
+
+Apply inverse Fourier transform gives
+
+\begin{align*}
+  2\pi\,q(x;t) &= \int_{-\infty}^\infty e^{i\lambda x - \lambda^2 t}\widehat{q_0}(\lambda)\,d\lambda - \int_{-\infty}^\infty e^{i\lambda x - \lambda^2 t}(i\lambda\,f_0(\lambda,0,t)+f_1(\lambda,0,t))\,d\lambda \\
+  &\qquad \qquad + \int_{-\infty}^\infty e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda.
+\end{align*}
+
+\underline{Note} \begin{itemize}
+    \item Properly these integrals should be considered together as a single Cauchy Principle Value Integral. This splitting and removal of PV can be rigorously justified later in the argument, at least doe most problems for most equations, for most $x$ and most $t$.
+    \item We cannot reasonably expect this formula to hold at $x = 0$, or $x = 1$ because (the full line extension of) $q_0$ is discontinuous at $0$ and $1$, so we use the above formula to evaluate $q(0;t), q(1;t)$ only via interior limits. 
+\end{itemize}
+    
+We aim to deform the latter two contours of integration away from $\R$. We need the following definitions:
+\begin{align*}
+    \C^\pm &:= \{\lambda \in \C: \pm \mathrm{Im}(\lambda)>0\},\\
+    D &:= \{\lambda \in \C: \mathrm{Re}(\lambda^2) < 0\}, \\
+    E &:= \{\lambda \in \C: \mathrm{Re}(\lambda^2) > 0\},\\
+    D^\pm & := D~\cap~\C^\pm,\\
+    E^\pm & := E~\cap~\C^\pm.
+\end{align*}
+
+Orient the boundaries of these (unions of) sectors in the positive sense; the sector lies to the left of its boundary.
+
+By using Cauchy's integral theorem and Jordan's lemma, we will do lots of contour deformation from infinite contours to much simpler contours, and showing that various contour integrals evaluate to 0. Integrate by parts gives:
+\begin{align*}
+    e^{-\lambda^2t}f_j(\lambda,x,t) &= \int_0^t e^{-\lambda^2(t-s)}\partial_x^j q(x,s)ds\\
+    &= \lambda^{-2}\left[e^{-\lambda^2(t-s)\partial_x^jq(x,s)}\right]_{s=0}^{s=t} - \lambda^{-2}\int_0^te^{-\lambda^2(t-s)}\partial_s\partial_x^jq(x,s)ds\\
+    &= \mathcal{O}(|\lambda|^{-2}),
+\end{align*}
+uniformly in $\mathrm{arg}(\lambda)$ as $\lambda \to \infty$ within $\mathrm{clos}(E)$, where
+\[\int_0^te^{-\lambda^2(t-s)}\partial_s\partial_x^jq(x,s)ds\] is in $\mathcal{O}(1)$, uniformly in  $\mathrm{arg}(\lambda)$ by Riemann-Lebesgue lemma. Note that $E$ is chosen so that $e^{-\lambda^2(t-s)} = \mathcal{O}(1)$ for $s\in[0,t]$. This implies that
+\[e^{-\lambda^2t}\left(i\lambda f_0(\lambda,x,t)+f_1(\lambda,x,t)\right) = \mathcal{O}(|\lambda|^{-1}),\]
+uniformly in $\mathrm{arg}(\lambda)$ as $\lambda \to \infty$ within $\mathrm{clos}(E)$. Also, $e^{-\lambda^2t}\left(i\lambda f_0(\lambda,x,t)+f_1(\lambda,x,t)\right)$ is entire as $\partial_x^j q(x,\cdot) \in L^1[0,T]$. Hence, by Jordan's lemma, 
+\[\int_{E^+} e^{i\lambda x - \lambda^2t} \left(i\lambda f_0(\lambda,0,t) + f_1(\lambda,0,t)\right)d\lambda = 0\]
+for all $x > 0$. This suggests that
+\begin{align*}
+    \int_{-\infty}^\infty e^{i\lambda x - \lambda^2t} \left(i\lambda f_0(\lambda,0,t) + f_1(\lambda,0,t)\right)d\lambda &= \left\{\int_{-\infty}^\infty - \int_{E^+} \right\}e^{i\lambda x - \lambda^2t} \left(i\lambda f_0(\lambda,0,t) + f_1(\lambda,0,t)\right)d\lambda\\
+    &= \int_{D^+} e^{i\lambda x - \lambda^2t} \left(i\lambda f_0(\lambda,0,t) + f_1(\lambda,0,t)\right)d\lambda.
+\end{align*}
+Similarly, for the third integrand, we have
+\begin{align*}
+    \int_{-\infty}^\infty e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda &= - \int_{\infty}^{-\infty} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda\\
+    &= - \left\{\int_{\infty}^{-\infty} - \int_{E^-}\right\} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda\\
+    &= \int_{D^-} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda.
+\end{align*}
+Cauchy's integral theorem allows deformation of contours and integration over finite regions in which the integrand is analytic. Using Jordan's lemma, the same can be done over appropriately chosen infinite sectors, with the additional decay criterion. We refer to such as an ``infinite contour deformation'' and summarise the argument as ``by Jordan's lemma''. 
+
+We have arrived at the Ehrenpreis form:
+\begin{equation*}\label{EFt}
+\begin{aligned}
+2\pi\,q(x;t) &= \int_{-\infty}^\infty e^{i\lambda x - \lambda^2 t}\widehat{q_0}(\lambda)\,d\lambda - \int_{D^+} e^{i\lambda x - \lambda^2 t}(i\lambda\,f_0(\lambda,0,t)+f_1(\lambda,0,t))\,d\lambda \\
+  &\qquad \qquad + \int_{D^-} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,t) + f_1(\lambda,1,t))\,d\lambda,
+\end{aligned}\tag{EF$t$}
+\end{equation*}
+valid for $(x,t) \in (0,1)\times [0,T]$.
+
+By a similar argument, for all $\tau \in [t,T]$,
+\[e^{-\lambda^2 t}\left(i\lambda\int_t^\tau e^{\lambda^2s}q(x,s)ds + \int_t^\tau e^{\lambda^2s}\partial_xq(x,s)ds\right) = \mathcal{O}(|\lambda|^{-1})\]
+uniformly in $\mathrm{arg}(\lambda)$ as $\lambda \to \infty$ within $\mathrm{clos}(D)$, so 
+\[\int_{D^+}e^{i\lambda x - \lambda^2t}\left(i\lambda[f_0(\lambda,0,\tau)-f_0(\lambda,0,t)] + [f_1(\lambda,0,\tau) - f_0(\lambda,0,t)]\right)d\lambda = 0.\]
+Similarly, 
+\[\int_{D^-}e^{i\lambda x - \lambda^2t}\left(i\lambda[f_0(\lambda,0,\tau)-f_0(\lambda,0,t)] + [f_1(\lambda,0,\tau) - f_0(\lambda,0,t)]\right)d\lambda = 0.\]
+This yields
+\begin{equation*}\label{EFtau}
+\begin{aligned}
+2\pi q(x;t) &= \int_{-\infty}^\infty e^{i\lambda x - \lambda^2 t}\widehat{q_0}(\lambda)\,d\lambda - \int_{D^+} e^{i\lambda x - \lambda^2 t}(i\lambda\,f_0(\lambda,0,\tau)+f_1(\lambda,0,\tau))\,d\lambda \\
+  &\qquad \qquad + \int_{D^-} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,\tau) + f_1(\lambda,1,\tau))\,d\lambda,
+\end{aligned}\tag{EF$\tau$}
+\end{equation*}
+valid for $(x,t)\in (0,1)\times [0,\tau]$, $\tau \in [0,T]$. This formula has the advantage of very simple $(x,t)$ dependence.
+
+\bigskip
+
+{\large \bf Summary of progress}
+
+\bigskip
+
+We started by assuming that a solutions exists and showed that any solution must satisfy (EF$\tau$) and (GR). The value of (GR) is not clear yet, except in deriving (EF$\tau$):
+\begin{equation*}
+\begin{aligned}
+2\pi q(x;t) &= \int_{-\infty}^\infty e^{i\lambda x - \lambda^2 t}\widehat{q_0}(\lambda)\,d\lambda - \int_{D^+} e^{i\lambda x - \lambda^2 t}(i\lambda\,f_0(\lambda,0,\tau)+f_1(\lambda,0,\tau))\,d\lambda \\
+  &\qquad \qquad + \int_{D^-} e^{i\lambda(x-1)-\lambda^2t}(i\lambda f_0(\lambda,1,\tau) + f_1(\lambda,1,\tau))\,d\lambda,
+\end{aligned}
+\end{equation*}
+where $\widehat{q_0}(\lambda) = \int_0^1e^{-i\lambda y}q_0(y)dy$ is known and $f_i(\lambda,x,\tau) = \int_0^\tau e^{\lambda^2s}\partial_x^jq(x,s)ds$ is unknown. So (EF$\tau$) is not an explicit representation of the solution; we will have work to do.
+\end{document}
