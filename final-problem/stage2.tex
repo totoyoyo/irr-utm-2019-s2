@@ -1,0 +1,155 @@
+\subsection*{Stage 2}
+Assume that $q$ satisfies not only (PDE) \& (IC) but also (BC). Then
+\begin{align*}
+    f_0(\lambda, 0, \tau) &= \int_0^{\tau} e^{-i\lambda^3s}q(0,s)ds = \int_0^{\tau} e^{-i\lambda^3s}q_0(s) ds =: h_0(\lambda,\tau),\\
+    f_0(\lambda, 1, \tau) &= \int_0^{\tau} e^{-i\lambda^3s}q(1,s)ds = \int_0^{\tau} e^{-i\lambda^3s}q_1(s) ds =: h_1(\lambda,\tau), \\
+    f_1(\lambda, 1, \tau) &= \int_0^{\tau} e^{-i\lambda^3s}q(1,s)ds = \int_0^{\tau} e^{-i\lambda^3s}q_1(s) ds =: h_2(\lambda,\tau)
+\end{align*}
+are known. But $f_1(\lambda,0,\tau), f_2(\lambda,0,\tau)$ and $f_2(\lambda,1,\tau)$ are unknown.
+
+We need equations involving $f_1(\lambda,0,\tau), f_2(\lambda,0,\tau)$ and $f_2(\lambda,1,\tau)$ and we have (GR). After applying the boundary conditions, \eqref{GR} becomes 
+\[f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - e^{i\lambda}f_2(\lambda, 1, t) = e^{- i \lambda^3 t} \hat{q}(\lambda, t) - \hat{q_0}(\lambda) + e^{i\lambda}(i\lambda h_2(\lambda,\tau) - \lambda^2 h_1(\lambda,\tau)) + \lambda^2h_0(\lambda,\tau).\]
+We know that the cubic roots of unity are
+\[\left\{\varepsilon_1 = 1, \varepsilon_2 = \frac{-1 + i\sqrt{3}}{2}, \varepsilon_3 = \frac{-1 - i\sqrt{3}}{2}\right\}.\]
+Consider applying the maps $\lambda \to \lambda, \lambda \to \varepsilon_2 \lambda, \lambda \to \varepsilon_3 \lambda$ to (GR), which yields the following system of three linearly independent equations:
+\[
+\begin{pmatrix}
+1 & i\lambda & -e^{i\lambda} \\ 
+1 & i\varepsilon_2 \lambda & -e^{i\varepsilon_2\lambda} \\ 
+1 & i\varepsilon_3 \lambda & -e^{i\varepsilon_3\lambda}
+\end{pmatrix}
+\begin{pmatrix}
+f_2(\lambda, 0, t) \\ 
+f_1(\lambda, 0, t) \\
+f_2(\lambda, 1, t)
+\end{pmatrix} = e^{-i\lambda^3t}
+\begin{pmatrix}\widehat{q}(\lambda,t) \\ \widehat{q}(\varepsilon_2\lambda,t) \\\widehat{q}(\varepsilon_3\lambda,t)\end{pmatrix} - \begin{pmatrix}\widehat{q}_0(\lambda) \\ \widehat{q}_0(\varepsilon_2\lambda) \\\widehat{q}_0(\varepsilon_3\lambda)\end{pmatrix} + \begin{pmatrix}M(\lambda) \\ M(\varepsilon_2\lambda) \\M(\varepsilon_3\lambda)\end{pmatrix}\]
+where $M(\lambda) := e^{i\lambda} (i\lambda h_2(\lambda,\tau) - \lambda^2h_1(\lambda,\tau)) + \lambda^2h_0(\lambda,\tau)$.
+
+Now, solve the system using Cramer's rule. Let
+\[ 
+\psi(\xi) = e^{i \lambda^3 t}\widehat{q}(\xi,\tau) - \widehat{q}_0(\xi) + M(\xi)
+\]
+Then, using the Cramer's rule, we have that 
+\[ f_2(\lambda, 0, \tau) = \frac{D_1(\lambda, \psi)}{D(\lambda)}\qquad f_1(\lambda, 0, \tau) = \frac{D_2(\lambda, \psi)}{D(\lambda)} \qquad f_2(\lambda, 1, \tau) = \frac{D_3(\lambda, \psi)}{D(\lambda)},\]
+where
+\begin{align*}
+    D(\lambda) &= \lambda\sqrt{3}e^{i\lambda} \\
+    D_1(\lambda, \psi) &= \psi(\lambda)(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}) - i\lambda(\psi(\varepsilon_3\lambda)e^{\varepsilon_2\lambda} -\psi(\varepsilon_2\lambda)e^{\varepsilon_3\lambda}) - e^{i\lambda}(\psi(\varepsilon_3\lambda)\varepsilon_2\lambda -\psi(\varepsilon_2\lambda)\varepsilon_3\lambda) \\
+    D_2(\lambda, \psi) &= \psi(\varepsilon_2\lambda)e^{i \varepsilon_3\lambda} + \psi(\varepsilon_3\lambda)e^{i \varepsilon_2\lambda} -\psi(\lambda)( e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) -e^{i\lambda}(\psi(\varepsilon_3\lambda) - \psi(\varepsilon_2\lambda)) \\
+    D_3(\lambda, \psi) &= i \varepsilon_2\lambda \psi(\varepsilon_3\lambda)-i \varepsilon_3\lambda \psi(\varepsilon_2\lambda) - i\lambda(\psi(\varepsilon_3\lambda) - \psi(\varepsilon_2 \lambda)) + \psi(\lambda) i \lambda (\varepsilon_3 - \varepsilon_2),
+\end{align*}
+i.e. $D_i(\lambda, \psi)$ is the determinant of the matrix when its $i$-th column has been replaced by \[(\psi(\lambda), \psi(\varepsilon_2\lambda), \psi(\varepsilon_2\lambda))^T.\] Now, we have 
+\begin{equation*}
+    f_2(\lambda, 0, \tau) + i \lambda f_1(\lambda, 0, \tau) - \lambda^2 f_0(\lambda, 0, \tau) = \frac{D_1(\lambda, \psi)}{D(\lambda)} + i \lambda \frac{D_2(\lambda, \psi)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau)
+\end{equation*}
+and
+\begin{equation*}
+    f_2(\lambda, 1, \tau) + i \lambda f_1(\lambda, 1, \tau) - \lambda^2 f_0(\lambda, 1, \tau) = \frac{D_3(\lambda, \psi)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau).
+\end{equation*}
+Separating $\hat{q}(\lambda,t)$ from the known part of the expression, we have:
+\begin{align*}
+    D_1(\lambda,\psi) &= \psi(\lambda)(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}) - i\lambda(\psi(\varepsilon_3\lambda)e^{\varepsilon_2\lambda} -\psi(\varepsilon_2\lambda)e^{\varepsilon_3\lambda}) - e^{i\lambda}(\psi(\varepsilon_3\lambda)\varepsilon_2\lambda -\psi(\varepsilon_2\lambda)\varepsilon_3\lambda) \\
+    &= \left(e^{i \lambda^3 t}\widehat{q}(\lambda,\tau) - \widehat{q}_0(\lambda) + M(\lambda)\right)\left(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}\right) \\
+    &- i\lambda\left(\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda)\right)e^{\varepsilon_2\lambda} -\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) - \widehat{q}_0(\varepsilon_2\lambda) + M(\varepsilon_2\lambda)\right)e^{\varepsilon_3\lambda}\right)\\ 
+    &- e^{i\lambda}\left(\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda)\right)\varepsilon_2\lambda -\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) - \widehat{q}_0(\varepsilon_2\lambda) + M(\varepsilon_2\lambda)\right)\varepsilon_3\lambda\right) \\
+    &= e^{i \lambda^3 t}\widehat{q}(\lambda,\tau)\left(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}\right)- \left(\widehat{q}_0(\lambda) - M(\lambda)\right)\left(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}\right)\\
+    &- i\lambda\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau)e^{\varepsilon_2\lambda} -\left(\widehat{q}_0(\varepsilon_3\lambda) - M(\varepsilon_3\lambda)\right)e^{\varepsilon_2\lambda} - e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau)e^{\varepsilon_3\lambda} + \left(\widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)\right)e^{\varepsilon_3\lambda}\right)\\ 
+    &- e^{i\lambda}\left(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau)\varepsilon_2\lambda -\left(\widehat{q}_0(\varepsilon_3\lambda) - M(\varepsilon_3\lambda)\right)\varepsilon_2\lambda - e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau)\varepsilon_3\lambda + \left(\widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)\right)\varepsilon_3\lambda\right).
+\end{align*}
+Let 
+\begin{align*}
+    \widetilde{D}_1(\lambda) &:= - \left(\widehat{q}_0(\lambda) - M(\lambda)\right)\left(i\varepsilon_3\lambda e^{\varepsilon_2\lambda} - i\varepsilon_2\lambda e^{\varepsilon_3\lambda}\right)\\
+    &+ i\lambda \left(\left(\widehat{q}_0(\varepsilon_3\lambda) - M(\varepsilon_3\lambda)\right)e^{\varepsilon_2\lambda} - \left(\widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)\right)e^{\varepsilon_3\lambda}\right)\\
+    &+ e^{i\lambda} \left(\left(\widehat{q}_0(\varepsilon_3\lambda) - M(\varepsilon_3\lambda)\right)\varepsilon_2\lambda - \left(\widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)\right)\varepsilon_3\lambda\right)
+\end{align*}
+and
+\begin{align*}
+    U_1(\lambda) &= e^{i \lambda^3 t}\lambda\left(\widehat{q}(\lambda,\tau)\left(i\varepsilon_3e^{\varepsilon_2\lambda} - i\varepsilon_2e^{\varepsilon_3\lambda}\right) - i\left(\widehat{q}(\varepsilon_3\lambda,\tau)e^{\varepsilon_2\lambda} - \widehat{q}(\varepsilon_2\lambda,\tau)e^{\varepsilon_3\lambda}\right)\right.\\ 
+    &- \left.e^{i\lambda}\left(\widehat{q}(\varepsilon_3\lambda,\tau)\varepsilon_2 - \widehat{q}(\varepsilon_2\lambda,\tau)\varepsilon_3\right)\right).
+\end{align*}
+Then 
+\begin{align*}
+    D_1(\lambda,\psi) &= \underbrace{\widetilde{D}_1(\lambda)}_\text{data} + \underbrace{U_1(\lambda)}_\text{unknown}.
+\end{align*}
+Similarly, we have 
+\begin{align*}
+    D_2(\lambda, \psi) &= \psi(\varepsilon_2\lambda)e^{i \varepsilon_3\lambda} + \psi(\varepsilon_3\lambda)e^{i \varepsilon_2\lambda} -\psi(\lambda)( e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) -e^{i\lambda}(\psi(\varepsilon_3\lambda) - \psi(\varepsilon_2\lambda)) \\
+    &= (e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) - \widehat{q}_0(\varepsilon_2\lambda) + M(\varepsilon_2\lambda))e^{i \varepsilon_3\lambda} + (e^{i (\lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda))e^{i \varepsilon_2\lambda}\\
+    &-(e^{i \lambda^3 t}\widehat{q}(\lambda,\tau) - \widehat{q}_0(\lambda) + M(\lambda))( e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) \\
+    &- e^{i\lambda}(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda) -e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) + \widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)) \\
+    &= e^{i \varepsilon_3\lambda} e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) + (M(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_2\lambda))e^{i \varepsilon_3\lambda} + e^{i \varepsilon_2\lambda}e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) +(M(\varepsilon_3\lambda) - \widehat{q}_0(\varepsilon_3\lambda))e^{i \varepsilon_2\lambda}\\
+    &-(e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) e^{i \lambda^3 t}\widehat{q}(\lambda,\tau)-( M(\lambda) - \widehat{q}_0(\lambda))(e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) \\
+    &- e^{i\lambda}e^{i \lambda^3 t}(\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}(\varepsilon_2\lambda,\tau))  - e^{i\lambda} (M(\varepsilon_3\lambda) - M(\varepsilon_2\lambda)+ \widehat{q}_0(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_3\lambda)) \\
+    &= e^{i \lambda^3 t} (e^{i \varepsilon_3\lambda} \widehat{q}(\varepsilon_2\lambda,\tau) + e^{i \varepsilon_2\lambda}\widehat{q}(\varepsilon_3\lambda,\tau))+ (M(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_2\lambda))e^{i \varepsilon_3\lambda} +(M(\varepsilon_3\lambda) - \widehat{q}_0(\varepsilon_3\lambda))e^{i \varepsilon_2\lambda}\\
+    &-(e^{\varepsilon_2\lambda}\widehat{q}(\lambda,\tau) - e^{\varepsilon_3\lambda}\widehat{q}(\lambda,\tau)) e^{i \lambda^3 t}-( M(\lambda) - \widehat{q}_0(\lambda))(e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda}) \\
+    &- e^{i \lambda^3 t}(e^{i\lambda}\widehat{q}(\varepsilon_3\lambda,\tau) - e^{i\lambda}\widehat{q}(\varepsilon_2\lambda,\tau))  - e^{i\lambda} (M(\varepsilon_3\lambda) - M(\varepsilon_2\lambda)+ \widehat{q}_0(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_3\lambda)).
+\end{align*}
+Let 
+\begin{align*}
+    \widetilde{D}_2(\lambda) &:= (M(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_2\lambda))e^{i \varepsilon_3\lambda} +(M(\varepsilon_3\lambda) - \widehat{q}_0(\varepsilon_3\lambda))e^{i \varepsilon_2\lambda} -( M(\lambda) - \widehat{q}_0(\lambda))(e^{\varepsilon_2\lambda} - e^{\varepsilon_3\lambda})\\
+    &- e^{i\lambda} (M(\varepsilon_3\lambda) - M(\varepsilon_2\lambda)+ \widehat{q}_0(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_3\lambda)),
+\end{align*}
+and 
+\begin{align*}
+    U_2(\lambda) &:= e^{i \lambda^3 t} (e^{i \varepsilon_3\lambda} \widehat{q}(\varepsilon_2\lambda,\tau) + e^{i \varepsilon_2\lambda}\widehat{q}(\varepsilon_3\lambda,\tau)- e^{\varepsilon_2\lambda}\widehat{q}(\lambda,\tau) + e^{\varepsilon_3\lambda}\widehat{q}(\lambda,\tau) - e^{i\lambda}\widehat{q}(\varepsilon_3\lambda,\tau) + e^{i\lambda}\widehat{q}(\varepsilon_2\lambda,\tau)).
+\end{align*}
+Then,
+\begin{align*}
+    D_2(\lambda,\psi) &= \underbrace{\widetilde{D}_2(\lambda)}_\text{data} + \underbrace{U_2(\lambda)}_\text{unknown}.
+\end{align*}
+Finally, we have 
+\begin{align*}
+    D_3(\lambda, \psi) &= i \varepsilon_2\lambda \psi(\varepsilon_3\lambda)-i \varepsilon_3\lambda \psi(\varepsilon_2\lambda) - i\lambda(\psi(\varepsilon_3\lambda) - \psi(\varepsilon_2 \lambda)) + \psi(\lambda) i \lambda (\varepsilon_3 - \varepsilon_2) \\
+    &=i \varepsilon_2\lambda (e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda)) -i \varepsilon_3\lambda (e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) - \widehat{q}_0(\varepsilon_2\lambda) + M(\varepsilon_2\lambda))) \\
+    &- i\lambda(e^{i \lambda^3 t}\widehat{q}(\varepsilon_3\lambda,\tau) - \widehat{q}_0(\varepsilon_3\lambda) + M(\varepsilon_3\lambda) - e^{i \lambda^3 t}\widehat{q}(\varepsilon_2\lambda,\tau) + \widehat{q}_0(\varepsilon_2\lambda) - M(\varepsilon_2\lambda)) \\
+    &+ (e^{i \lambda^3 t}\widehat{q}(\lambda,\tau) - \widehat{q}_0(\lambda) + M(\lambda))i \lambda (\varepsilon_3 - \varepsilon_2) \\
+    &=e^{i \lambda^3 t}(i \varepsilon_2\lambda \widehat{q}(\varepsilon_3\lambda,\tau)  -i \varepsilon_3\lambda\widehat{q}(\varepsilon_2\lambda,\tau)) +i \varepsilon_2\lambda (M(\varepsilon_3\lambda) - \widehat{q}_0(\varepsilon_3\lambda))-i \varepsilon_3\lambda( M(\varepsilon_2\lambda)- \widehat{q}_0(\varepsilon_2\lambda)) \\
+    &- e^{i \lambda^3 t}( i\lambda\widehat{q}(\varepsilon_3\lambda,\tau) -  i\lambda\widehat{q}(\varepsilon_2\lambda,\tau))  - i\lambda(M(\varepsilon_3\lambda)   - M(\varepsilon_2\lambda) + \widehat{q}_0(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_3\lambda)) \\
+    &+ e^{i \lambda^3 t}\widehat{q}(\lambda,\tau)\lambda \sqrt{3} + (M(\lambda) - \widehat{q}_0(\lambda)) \lambda \sqrt{3}.
+\end{align*}
+Let 
+\begin{align*}
+    \widetilde{D}_3(\lambda) :&= i \varepsilon_2\lambda (M(\varepsilon_3\lambda) - \widehat{q}_0(\varepsilon_3\lambda))-i \varepsilon_3\lambda( M(\varepsilon_2\lambda)- \widehat{q}_0(\varepsilon_2\lambda)) \\
+    &- i\lambda(M(\varepsilon_3\lambda)   - M(\varepsilon_2\lambda) + \widehat{q}_0(\varepsilon_2\lambda) - \widehat{q}_0(\varepsilon_3\lambda)) + (M(\lambda) - \widehat{q}_0(\lambda)) \lambda \sqrt{3}.
+\end{align*}
+and 
+\begin{align*}
+    U_3(\lambda) &:= e^{i \lambda^3 t} (i \varepsilon_2\lambda \widehat{q}(\varepsilon_3\lambda,\tau)  -i \varepsilon_3\lambda\widehat{q}(\varepsilon_2\lambda,\tau) - i\lambda\widehat{q}(\varepsilon_3\lambda,\tau) + i\lambda\widehat{q}(\varepsilon_2\lambda,\tau) + \widehat{q}(\lambda,\tau)\lambda \sqrt{3}).
+\end{align*}
+Then,
+\begin{align*}
+    D_3(\lambda,\psi) &= \underbrace{\widetilde{D}_3(\lambda)}_\text{data} + \underbrace{U_3(\lambda)}_\text{unknown}.
+\end{align*}
+These separations allow us to write 
+\begin{align*}
+    f_2(\lambda, 0, \tau) + i \lambda f_1(\lambda, 0, \tau) - \lambda^2 f_0(\lambda, 0, \tau) &= \frac{D_1(\lambda, \psi)}{D(\lambda)} + i \lambda \frac{D_2(\lambda, \psi)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau)\\
+    &= \frac{\widetilde{D}_1(\lambda) + U_1(\lambda)}{D(\lambda)} + i \lambda \frac{\widetilde{D}_2(\lambda) + U_2(\lambda)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau)\\
+    &= \underbrace{\frac{\widetilde{D}_1(\lambda)+i \lambda\widetilde{D}_2(\lambda)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau)}_\text{data} + \underbrace{\frac{U_1(\lambda) + i \lambda  U_2(\lambda)}{D(\lambda)}}_\text{not data}.
+\end{align*}
+and
+\begin{align*}
+    f_2(\lambda, 1, \tau) + i \lambda f_1(\lambda, 1, \tau) - \lambda^2 f_0(\lambda, 1, \tau) &= \frac{\widetilde{D}_3(\lambda) + U_3(\lambda)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau) \\
+    &=\underbrace{\frac{\widetilde{D}_3(\lambda)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau)}_\text{data} + \underbrace{\frac{U_3(\lambda)}{D(\lambda)}}_\text{not data}.
+\end{align*}
+Substituting into \eqref{EFt} gives: 
+\begin{equation*}
+\begin{aligned}
+2\pi q(x, t) &= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda + \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)d\lambda \\
+&+\int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda\\
+&= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda \\
+&+ \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left( \frac{\widetilde{D}_1(\lambda)+i \lambda\widetilde{D}_2(\lambda)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau) + \frac{U_1(\lambda) + i \lambda  U_2(\lambda)}{D(\lambda)} \right)d\lambda \\
+&+ \int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(\frac{\widetilde{D}_3(\lambda)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau) + \frac{U_3(\lambda)}{D(\lambda)} \right)\,d\lambda\\
+&= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda \\
+&+ \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left( \frac{\widetilde{D}_1(\lambda)+i \lambda\widetilde{D}_2(\lambda)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau) \right)d\lambda + \int_{D^+} e^{i \lambda^3 t+i\lambda x}\frac{U_1(\lambda) + i \lambda  U_2(\lambda)}{D(\lambda)}\, d\lambda  \\
+&+ \int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(\frac{\widetilde{D}_3(\lambda)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau)\right)\,d\lambda + \int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \frac{U_3(\lambda)}{D(\lambda)} \,d\lambda. \\
+\end{aligned}
+\end{equation*}
+Note that $U_i(\lambda)$ evaluate to $0$ within $\mathrm{clos}{D}$ and so we obtain the solution representation, in terms of contour integrals around $D:$
+\begin{equation*}\label{SRtau}
+\begin{aligned}
+2\pi q(x, t) = \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}&\hat{q_0}(\lambda)\,d\lambda + \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left( \frac{\widetilde{D}_1(\lambda)+i \lambda\widetilde{D}_2(\lambda)}{D(\lambda)} - \lambda^2 h_0(\lambda; \tau) \right)d\lambda \\
+&+\int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(\frac{\widetilde{D}_3(\lambda)}{D(\lambda)} + i \lambda h_2(\lambda; \tau) - \lambda^2 h_1(\lambda, \tau)\right)\,d\lambda,
+\end{aligned}\tag{SR$\tau$}
+\end{equation*} 
+where $h_i, \widetilde{D}_i, q_0, D$ are explicitly defined in terms of the data of the problem.
