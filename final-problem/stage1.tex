@@ -1,135 +1,118 @@
-%stage 1
-We were given the PDE
-$$[\partial_t+\partial_{xxx}]q(x,t) = 0.$$
-Perform a spatial Fourier Transform of the PDE, using our Preliminary Work, we get
+\subsection*{Preliminary Work}
+First, let's consider how $\hat{\cdot}$ interacts with the third derivative operator on $\phi \in \mathcal{C}^{\infty}[0,1]:$
 \begin{align*}
-    \widehat{[\partial_t+\partial_{xxx}]q}(x,t) &= \widehat{\partial_t q}(\lambda,t) + e^{-i\lambda x}\left(\partial_{xx}q(x,t) + i\lambda \partial_{x}q(x,t) - \lambda^2 q(x,t) \right) \bigg\rvert_0^1 - i \lambda^3\widehat{q}(\lambda,t) \\
-    &= (\partial_t - i \lambda^3) \widehat{q}(\lambda,t) + e^{-i\lambda x}\left(\partial_{xx}q(x,t) + i\lambda \partial_{x}q(x,t) - \lambda^2 q(x,t) \right) \bigg\rvert_0^1 \\
-    &= 0.
+    \widehat{\frac{d^3}{dx^3}\phi}(\lambda) &= \int^1_0 \phi^{\prime \prime\prime}(x) e^{-i \lambda x} ~ \mathrm{d}x \\
+    &= e^{-i \lambda x} \phi^{\prime \prime}(x)  \biggm|^1_0 + i\lambda \int^1_0 \phi^{\prime \prime}(x) e^{-i \lambda x} ~ \mathrm{d}x \\
+    &= e^{-i \lambda x} \phi^{\prime \prime}(x)  \biggm|^1_0 + i \lambda  \left(e^{-i \lambda x} \phi^{\prime}(x) \right)  \biggm|^1_0 + i \lambda \int^1_0 \phi^{\prime}(x) e^{-i \lambda x} ~ \mathrm{d}x \\
+    &= e^{-i \lambda x}  \left(\phi^{\prime \prime}(x) + i \lambda \phi^{\prime}(x) \right)  \biggm|^1_0 - \lambda^2 \int^1_0 \phi^{\prime}(x) e^{-i \lambda x} ~ \mathrm{d}x \\ 
+    &= e^{-i \lambda x}  \left(\phi^{\prime \prime}(x) + i \lambda \phi^{\prime}(x) \right) \biggm|^1_0 - \lambda^2 \left(e^{-i \lambda x} \phi(x)  \biggm|^1_0 - i\lambda^3 \int^1_0 \phi(x) e^{-i \lambda x} ~ \mathrm{d}x\right) \\
+    &= e^{-i \lambda x} \left(\phi^{\prime \prime}(x) + i \lambda \phi^{\prime}(x) - \lambda^2\phi(x)\right) \biggm|^1_0 - i \lambda^3 \widehat{\phi}(\lambda) \\
+    &= e^{-i \lambda} \left(\phi^{\prime \prime}(1) + i \lambda \phi^{\prime}(1) - \lambda^2\phi(1)\right) - \left(\phi^{\prime \prime}(0) + i \lambda \phi^{\prime}(0) - \lambda^2\phi(0)) - i \lambda^3 \widehat{\phi}(\lambda)\right),
 \end{align*}
-Therefore, we have the ODE
+which follows by repeated application of integration by parts. 
+\subsection*{Stage 1}
+Now, assume that there exists a function $q : [0,1] \times [0,T] \to \mathbb{C},$ as smooth as we need, that satisfies the PDE and the IC. Applying Fourier transform to the PDE, 
 \begin{align*}
-&[\partial_t - i \lambda^3] \widehat{q}(\lambda,t) + e^{-i\lambda}\left(\partial_{xx}q(1,t) + i\lambda \partial_{x}q(1,t) - \lambda^2 q(1,t)\right) - \partial_{xx}q(0,t) - i\lambda \partial_{x}q(0,t) + \lambda^2 q(0,t) \\
-&= 0.
+    \widehat{q_t} (x,t) &= - \widehat{q_{xxx}}(x,t) \\
+    &=  \left(q_{xx}(0, t) + i \lambda q_x(0, t) - \lambda^2 q(0, t)\right) - e^{-i \lambda}  \left(q_{xx}(1, t) + i \lambda q_{x}(1, t) - \lambda^2 q(1, t)\right) + i \lambda^3 \widehat{q}(\lambda, t)
 \end{align*}
-Multiply both sides by $e^{-i\lambda^3 t}$ to get
-\begin{align*}
-&e^{-i\lambda^3 t}[\partial_t - i \lambda^3] \widehat{q}(\lambda,t) + e^{-i\lambda -i\lambda^3 t}\left(\partial_{xx}q(1,t) + i\lambda \partial_{x}q(1,t) - \lambda^2 q(1,t)\right) \\
-&- e^{-i\lambda^3 t}\left(\partial_{xx}q(0,t) + i\lambda \partial_{x}q(0,t) - \lambda^2 q(0,t)\right) \\
-&= 0.
-\end{align*}
-Observe that
-    $$e^{-i\lambda^3 t}[\partial_t - i \lambda^3] \widehat{q}(\lambda,t) = \frac{\mathrm{d}}{\mathrm{d}t}\left(e^{-i\lambda^3 t}\widehat{q}(\lambda,t)\right).$$
-Integrate with respect to time to solve the ODE,
-\begin{align*}
-&\int_0^t \frac{\mathrm{d}}{\mathrm{d}s} \left(e^{-i\lambda^3 s} \widehat{q}(\lambda,s)\right) \mathrm{d}s \\
-&-\int_0^t e^{-i\lambda^3 s}\left(\partial_{xx}q(0,s) + i\lambda \partial_{x}q(0,s) - \lambda^2 q(0,s)\right) \mathrm{d}s \\
-&+\int_0^t e^{-i\lambda -i\lambda^3 s}\left(\partial_{xx}q(1,s) + i\lambda \partial_{x}q(1,s) - \lambda^2 q(1,s)\right) \mathrm{d}s \\
-&= 0.
-\end{align*}
+which follows by preliminary work and rearrangement of terms. We subtract $ i \lambda^3 \widehat{q}(\lambda, t)$ from both sides of the above equation, and multiply the equaiton by $e^{- i \lambda^3 t}.$ Recalling the product rule for derivatives, we have on the left hand-side:
+\[ 
+e^{- i \lambda^3 t} \hat{q_t} (\lambda,t) - i \lambda^3 e^{- i \lambda^3 t} \hat{q}(\lambda, t) = \frac{d}{dt}  \left(e^{- i \lambda^3 t} \hat{q}(\lambda, t)\right),
+\]
+so that the above equation becomes
+\begin{equation*}
+\frac{d}{dt}  \left(e^{- i \lambda^3 t} \hat{q}(\lambda, t)\right) = e^{- i \lambda^3 t}\left(q_{xx}(0, t) + i \lambda q_x(0, t) - \lambda^2 q(0, t)\right) - e^{-i \lambda - i \lambda^3 t} \left(q_{xx}(1, t) + i \lambda q_{x}(1, t) - \lambda^2 q(1, t)\right).
+\end{equation*}
+Taking the integral from $0$ to $t$ yields
+\begin{equation*}
+\begin{aligned}
+e^{- i \lambda^3 t} \widehat{q}(\lambda, t) - \widehat{q}(\lambda, 0) &= \int^t_0 e^{- i \lambda^3 s}\left(q_{xx}(0, s) + i \lambda q_x(0, s) - \lambda^2 q(0, s)\right) ~ \mathrm{d}s \\
+&- \int^t_0 e^{-i \lambda - i \lambda^3 s} \left(q_{xx}(1, s) + i \lambda q_{x}(1, s) - \lambda^2 q(1, s)\right) ~ \mathrm{d}s.
+\end{aligned}
+\end{equation*}
 
-We will introduce the notation
-$$f_j(\lambda,X,t) := \int_0^t e^{-i\lambda^3 s}(\partial_x)^j q(X,s) \mathrm{d}s.$$
-Therefore, we get
-\begin{align*}
-&e^{-i\lambda^3 t} \widehat{q}(\lambda,t) - \widehat{q}(\lambda,0) \\
-&-\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \\
-&+e^{-i\lambda}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \\
-&= 0
-\end{align*}
-which implies that
-\begin{align*}
-\widehat{q}(\lambda,t) = e^{i\lambda^3 t} \widehat{q}(\lambda,0) &+e^{i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \\
-&-e^{-i\lambda+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right)
-\end{align*}
-and this equation is the Global Relation (GR) which is valid for all $\lambda \in \mathbb{C}$ and for all $t \in [0,T]$. Take the inverse spatial Fourier Transform of GR and split the integrals on the left-hand side to get equation 6
-\begin{align}
-2\pi q(x,t) &= \int_{-\infty}^{\infty} e^{i\lambda x + i\lambda^3 t} \widehat{q}_0(\lambda) \mathrm{d}\lambda \label{eqn:IFT_GR}\\ 
-&+ \int_{-\infty}^{\infty} e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \mathrm{d}\lambda \nonumber \\
-&- \int_{-\infty}^{\infty} e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \mathrm{d}\lambda. \nonumber
-\end{align}
+Observe that $\widehat{q}(\lambda, 0)$ is the Fourier transform of the known function $q_0(x),$ so denote it as $\widehat{q_0}(\lambda).$ To simplify the notation, we further let 
+\[ 
+f_j(\lambda, X, t) := \int^t_0 e^{i \lambda^3 s}~ \partial_x^j ~q(X,s)  ~\mathrm{d}s,
+\]
+so that we have 
+\begin{equation}\label{GR}
+\begin{aligned}
+e^{- i \lambda^3 t} \hat{q}(\lambda, t) - \hat{q_0}(\lambda) &= \left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right) \\
+&- e^{-i \lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right). 
+\end{aligned}\tag{GR}
+\end{equation}
+Since $\lambda$ and $t$ were arbitrary, the above equation, which we refer to as the \emph{Global Relation}, is valid for all $\lambda \in \mathbb{C}$ and all $t \in [0,T].$
 
-We aim to deform the latter two contours of integration away from $\mathbb{R}$. Define
+Now solve for $\hat{q}(\lambda, t)$. Rearranging gives 
+\begin{equation*}
+\begin{aligned}
+\hat{q}(\lambda, t) &= e^{i \lambda^3 t}\hat{q_0}(\lambda) + e^{i \lambda^3 t}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right) \\
+&- e^{i \lambda^3 t-i \lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right).
+\end{aligned}
+\end{equation*}
+Applying inverse Fourier transform, we obtain
+\begin{equation*}
+\begin{aligned}
+2\pi q(x, t) &= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda + \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)\,d\lambda \\
+&- \int_{-\infty}^\infty e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda.
+\end{aligned}
+\end{equation*}
+We need to deform the latter two contours of integration away from $\R$. We need the following definitions: let 
 \begin{align*}
-    &\mathbb{C}^{\pm} := \{\lambda \in \mathbb{C} \mid \mbox{Im}(\lambda) > 0 \} \\
-    &D := \{ \lambda \in \mathbb{C} \mid \mbox{Re}(-i\lambda^3) < 0 \} &D^{\pm} := D \cap \mathbb{C}^{\pm} \\
-    &E := \{ \lambda \in \mathbb{C} \mid \mbox{Re}(-i\lambda^3) > 0 \} &E^{\pm} := E \cap \mathbb{C}^{\pm}
+    \C^\pm &:= \{\lambda \in \C: \pm \mathrm{Im}(\lambda)>0\},\\
+    D &:= \{\lambda \in \C: \mathrm{Re}(-i\lambda^3) < 0\}, \\
+    E &:= \{\lambda \in \C: \mathrm{Re}(-i\lambda^3) > 0\},\\
+    D^\pm & := D~\cap~\C^\pm,\\
+    E^\pm & := E~\cap~\C^\pm.
 \end{align*}
-and orient the boundaries of these (unions of) sectors in the positive sense; the sector lies to the left of its boundary.
-Note that if we let $\lambda = e^{i\theta}$ for some $\theta \in \mathbb{R}$, then we can re-write sets $D$ and $E$ as
+Integrate by parts gives
 \begin{align*}
-    &D = \{ e^{i\theta} \in \mathbb{C} \mid \cos(3\theta - \frac{\pi}{2}) < 0 \} \\
-    &E = \{ e^{i\theta} \in \mathbb{C} \mid \cos(3\theta - \frac{\pi}{2}) > 0 \}. \\
+    e^{i\lambda^3t}f_j(\lambda,x,t) &= \int_0^t e^{i\lambda^3(t-s)}\partial_x^jg(x,s)\,ds\\
+    &= -i\lambda^{-3}e^{i\lambda^3(t-s)}\partial_x^jg(x,s)\bigg|_{s=0}^{s=t} + i\lambda^{-3} \int_0^t e^{i\lambda^3(t-s)}\partial_s\partial_x^jg(x,s)\,ds\\
+    &= \mathcal{O}(|i\lambda|^{-3}),
 \end{align*}
-Refer to figure \ref{fig:intcontour} for a diagram of the sectors $D^{\pm}$ and $E^{\pm}$ on the complex plane.
-\begin{figure}
-\includegraphics[width=\linewidth]{ImagesforFinalProblem/intcontour1.png}
-\caption{A diagram showing the sectors $D^{\pm}$ and $E^{\pm}$ on the complex plane.}
-\centering\label{fig:intcontour}
-\end{figure}
-\newpage Consider
-$$f_j(\lambda,X,t) := \int_0^t e^{-i\lambda^3 s}(\partial_x)^j q(X,s) \mathrm{d}s,$$
-multiply both sides by $e^{i\lambda^3 t}$ and integrate by parts in $s$, then
+uniformly in $\mathrm{arg}(\lambda)$ as $i\lambda \to \infty$ within $\mathrm{clos}(D)$. This implies that \[e^{i \lambda^3 t}\left(f_2(\lambda, x, t) + i \lambda f_1(\lambda, x, t) - \lambda^2 f_0(\lambda, x, t)\right) = \mathcal{O}(|i\lambda|^{-1}),\]
+uniformly in $\mathrm{arg}(\lambda)$ as $i\lambda \to \infty$ within $\mathrm{clos}(D)$. Also, \[e^{i \lambda^3 t}\left(f_2(\lambda, x, t) + i \lambda f_1(\lambda, x, t) - \lambda^2 f_0(\lambda, x, t)\right)\]
+is entire as $\partial_x^j(x,\cdot) \in L'[0,T]$. Hence, by Jordan's lemma,
+\[\int_{E^\pm} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, x, t) + i \lambda f_1(\lambda, x, t) - \lambda^2 f_0(\lambda, x, t)\right)d\lambda = 0\]
+for all $x > 0$.
+Recalling the original integral, the above suggests that 
 \begin{align*}
-    e^{i\lambda^3 t}f_j(\lambda,X,t) &= \int_0^t e^{i\lambda^3 (t-s)}(\partial_x)^j q(X,s) \mathrm{d}s \\
-    &= \frac{i}{i\lambda^3} e^{i\lambda^3 (t-s)}(\partial_x)^j q(X,s) \bigg\rvert_{s=0}^{s=t} - \frac{i}{\lambda^3}\int_0^t e^{i\lambda^3 (t-s)}(\partial_x)^j q(X,s) \mathrm{d}s. 
+    \int_{-\infty}^{\infty} &e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)d\lambda \\
+    &= \left\{ \int_{-\infty}^{\infty} - \int_{E^+} \right\} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)d\lambda \\
+    &= \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)d\lambda.
 \end{align*}
-$E$ was chosen so that Re($i\lambda^3(t-s)) \leq 0$ for all $s \in [0,t]$. Therefore, as $\lambda \rightarrow \infty$ within clos$(E)$, $e^{i\lambda^3 (t-s)} = \mathcal{O}(1)$ decays uniformly in arg$(\lambda)$, and by the Riemann-Lebesgue lemma, the integral in the second term is oscillatory. Therefore, $e^{i\lambda^3 t}f_j(\lambda,X,t)$ decays uniformly in arg$(\lambda)$ with $\mathcal{O}(\abs{\lambda^{-3}})$, which implies that the entire term
-$$e^{i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) = \mathcal{O}(\abs{\lambda^{-1}}),$$
-decays uniformly in arg$(\lambda)$ as $\lambda \rightarrow \infty$ within clos$(E)$.
-Also, 
-$$e^{i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) = \mathcal{O}(\abs{\lambda^{-1}})$$
-is entire, i.e. analytic at all finite points of $\mathbb{C}$, as $(\partial_x)^jq(X,\cdot) \in L^1[0, T]$. Hence, by Jordan's lemma,
-$$
-    \int_{E^+} e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \mathrm{d}\lambda = 0,
-$$ 
-and similarly,
-$$
-    \int_{E^-} e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \mathrm{d}\lambda = 0.
-$$
-Temporarily denote
+Similarly, by Jordan's lemma, 
+\[\int_{E^\pm} e^{i \lambda^3 t+i\lambda x - i \lambda}\left(f_2(\lambda, x, t) + i \lambda f_1(\lambda, x, t) - \lambda^2 f_0(\lambda, x, t)\right)d\lambda = 0\]
+for all $x > 0,$ so that 
 \begin{align*}
-    &I_2 := e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right), \\
-    &I_3 := e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right), \\
-\end{align*} then,
-\begin{align*}
-    &\int_{-\infty}^{\infty} I_2 \mathrm{d}\lambda = -\int_{\infty}^{-\infty} I_2 \mathrm{d}\lambda = -\left\{\int_{\infty}^{-\infty} - \int_{E^-}\right\} I_2 \mathrm{d}\lambda = -\int_{D^-} I_2 \mathrm{d}\lambda \\
-    &\int_{-\infty}^{\infty} I_3 \mathrm{d}\lambda = \left\{\int_{-\infty}^{\infty} - \int_{E^+}\right\} I_3 \mathrm{d}\lambda = \int_{D^+} I_3 \mathrm{d}\lambda. \\
+    \int_{-\infty}^\infty &e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda \\
+    &= - \int_{\infty}^{-\infty} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda \\
+    &= - \left\{ \int_{\infty}^{-\infty} - \int_{E^-} \right\} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda \\
+    &= -\int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda.
 \end{align*}
-Therefore, we can re-write equation \ref{eqn:IFT_GR} as
-\begin{align}
-2\pi q(x,t) &= \int_{-\infty}^{\infty} e^{i\lambda x + i\lambda^3 t} \widehat{q}_0(\lambda) \mathrm{d}\lambda \label{eqn:EFt}\\ 
-&- \int_{D^-} e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \mathrm{d}\lambda \nonumber \\
-&- \int_{D^+} e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \mathrm{d}\lambda \nonumber
-\end{align}
-and this is the Ehrenpresis form (EFt) which is valid for $(x,t) \in (0,1) \times [0,T].$
+Through these deformations, we have arrived at the Ehrenpreis form:
+\begin{equation*}\label{EFt}
+\begin{aligned}
+2\pi q(x, t) &= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda + \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, t) + i \lambda f_1(\lambda, 0, t) - \lambda^2 f_0(\lambda, 0, t)\right)d\lambda \\
+&+\int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, t) + i \lambda f_1(\lambda, 1, t) - \lambda^2 f_0(\lambda, 1, t)\right)\,d\lambda,
+\end{aligned}\tag{EF$t$}
+\end{equation*}
+valid for $(x, t) \in (0,1) \times[0,T].$
 
-By a similar argument, $\forall \tau \in [t,T],$ Re($i\lambda^3(t-s)) \leq 0$ within clos$(D)$ and therefore,
-$$\int_t^\tau e^{i\lambda^3 (t-s)}\left(\partial_{xx}q(0,s) + i\lambda \partial_{x}q(0,s) - \lambda^2 q(0,s)\right) \mathrm{d}s$$
-decays uniformly in arg$(\lambda)$ as $\lambda \rightarrow \infty$ within clos$(D)$.
-Therefore, by Jordan's lemma, for sufficiently large $t$,
-$$
-    \int_{D^+} e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \mathrm{d}\lambda = 0
-$$
-and
-$$
-    \int_{D^-} e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \mathrm{d}\lambda = 0.
-$$
-This allows us to further manipulate equation \ref{eqn:EFt} to
-\begin{align}
-2\pi q(x,t) &= \int_{-\infty}^{\infty} e^{i\lambda x + i\lambda^3 t} \widehat{q}_0(\lambda) \mathrm{d}\lambda \label{eqn:EFtfinal}\\ 
-&- \int_{D^-} e^{i\lambda (x-1)+i\lambda^3 t}\left(f_2(\lambda,1,t) + i\lambda f_1(\lambda,1,t) - \lambda^2 f_0(\lambda,1,t)\right) \mathrm{d}\lambda \nonumber \\
-&- \int_{D^+} e^{i\lambda x+i\lambda^3 t}\left(f_2(\lambda,0,t) + i\lambda f_1(\lambda,0,t) - \lambda^2 f_0(\lambda,0,t)\right) \mathrm{d}\lambda \nonumber
-\end{align}
-which is valid for $(x,t) \in (0,1) \times [0,\tau], \tau \in [0,T]$ (in practice we will pick $\tau$ to be larger than all the time-values we care about).
-This formula (EF$\tau$) has the advantage of very simple $(x,t)$ dependence.
-
-We started by assuming that a solution exists and showed that any solution must satisfy (EF$\tau$) and (GR). 
-The importance of the equation (GR) is not yet clear, except for deriving (EF$\tau$). 
-Moreover, (EF$\tau$) is not an explicit representation of the solution since
-\begin{enumerate}
-    \item $f_1(\lambda,0,t)$
-    \item $f_2(\lambda,0,t)$
-    \item $f_2(\lambda,1,t)$
-\end{enumerate}
-are unknown.
+By a similar argument, for all $\tau \in [t,T],$ we have  
+\[ e^{i \lambda^3 t} \left(\int_{t}^{\tau} e^{- i \lambda^3 s}\left(q_{xx}(0, s) + i \lambda q_x(0, s) - \lambda^2 q(0, s)\right) ~ \mathrm{d}s \right) = \mathcal{O}(|i\lambda|^{-1})\]
+uniformly in $\mathrm{arg}(\lambda)$ as $i\lambda \to \infty$ within $\mathrm{clos}(D),$ so
+\[ \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, \tau) + i \lambda f_1(\lambda, 0, \tau) - \lambda^2 f_0(\lambda, 0, \tau)\right)d\lambda = 0\]
+and 
+\[ \int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, \tau) + i \lambda f_1(\lambda, 1, \tau) - \lambda^2 f_0(\lambda, 1, \tau)\right)\,d\lambda = 0.\]
+This yields
+\begin{equation*}
+\begin{aligned}
+2\pi q(x, t) &= \int_{-\infty}^\infty e^{i\lambda x + i \lambda^3 t}\hat{q_0}(\lambda)\,d\lambda + \int_{D^+} e^{i \lambda^3 t+i\lambda x}\left(f_2(\lambda, 0, \tau) + i \lambda f_1(\lambda, 0, \tau) - \lambda^2 f_0(\lambda, 0, \tau)\right)d\lambda \\
+&+\int_{D^-} e^{i\lambda x+i \lambda^3 t-i\lambda} \left(f_2(\lambda, 1, \tau) + i \lambda f_1(\lambda, 1, \tau) - \lambda^2 f_0(\lambda, 1, \tau)\right)\,d\lambda,
+\end{aligned}
+\end{equation*}
+which holds for $(x,t) \in (0,1)\times[0,\tau],$ where $\tau \in [0,T].$
